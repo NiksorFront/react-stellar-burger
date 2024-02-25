@@ -1,3 +1,8 @@
 body {
   margin: 0;
 }
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url("./fonts/JetBrainsMono-Medium.woff2") format("woff2");
+}

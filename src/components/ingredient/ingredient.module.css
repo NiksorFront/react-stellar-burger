@@ -1,0 +1,43 @@
+.columns{
+    margin: 0;
+    padding: 0;
+    direction: none;
+
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(2, 272px);
+    grid-template-rows: repeat(auto, 208px);
+
+    gap: 24px 32px;
+}
+
+.column{
+    display: grid;
+    position: relative;
+    width: 272px;
+    height: 208px;
+
+    justify-content: center;
+    text-align: center;
+}
+
+.img{
+    max-width: 240px;
+    max-height: 120px;
+
+    align-self: center;
+    justify-self: center;
+}
+
+.price{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0px;
+    gap: 8px;
+
+    min-width: 62px;
+    max-height: 24px;
+}

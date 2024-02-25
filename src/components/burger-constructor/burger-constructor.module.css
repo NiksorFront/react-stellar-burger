@@ -1,0 +1,10 @@
+.brg_construct{ 
+    width: 600px;
+    height: 912px;
+
+    display: flex;
+
+    margin: 0 20px;
+    padding: 0;
+
+}
