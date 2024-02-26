@@ -1,12 +1,11 @@
 .brg_ingredients{ 
     width: 600px;
-    max-height: 912px;
+    max-height: calc(100vh - 88px);
     margin: 0 20px;
     padding: 0;
 
     display: flex;
     flex-direction: column;
-    
 }
 
 .Ingredients{
@@ -14,4 +13,18 @@
     padding: 0;
 
     overflow-y: scroll;
+    scrollbar-color: rgba(133, 133, 173, 1) rgba(47, 47, 55, 1);
+    scrollbar-width: thin;
+}
+
+.Ingredients::-webkit-scrollbar {
+    width: 8px;
+}
+
+.Ingredients::-webkit-scrollbar-track {
+    background-color: rgba(47, 47, 55, 1);
+}
+
+.Ingredients::-webkit-scrollbar-thumb {
+    background-color: rgba(133, 133, 173, 1);
 }

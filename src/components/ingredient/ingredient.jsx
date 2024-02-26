@@ -1,21 +1,34 @@
 import React from "react"
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import s from "./ingredient.module.css"
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
-export default function Ingredient({children, ingredients}){
-    ingredients.forEach(ingr => console.log(ingr))
-    console.log('\n')
-
+export default function Ingredient({children, ingredients, popupSettings}){
     const count = "";
+
+    
+    function Popup(ingr){
+        console.log(ingr)
+        popupSettings.setPopupTrFal(true)
+        popupSettings.setPopupCont({
+            title:"Детали ингредиента",
+            content: <IngredientDetails imageURL={ingr.image_large}  
+                                        title={ingr.name}
+                                        calories={ingr.calories} 
+                                        proteins={ingr.proteins} 
+                                        fats={ingr.fat} 
+                                        carbohydrates={ingr.carbohydrates}/>,
+        })
+    }
 
     return(<div>
         <h4 className='text text_type_main-medium mt-15'>{children}</h4>
         <ul className={s.columns}>
             {ingredients.map(ingr => {return(
-            <li className={s.column}>
-                {/*count тут*/}
+            <li key={ingr._id} className={s.column} onClick={() => Popup(ingr)}>
+                {/*count будет задаваться и определён тут позже*/}
                 {count && <Counter count={count} size="default" extraClass="m-1" />}
-                <img src={ingr.image} alt="Хер" className={s.img}/>
+                <img src={ingr.image} alt={ingr.name} className={s.img}/>
                 <div className={s.price}>
                     <p className="text text_type_digits-default">{ingr.price}</p>
                     <CurrencyIcon/>

@@ -23,24 +23,23 @@ function NavIngred(){
 
 
 
-export default function BurgerIngredients(ingredients){
+export default function BurgerIngredients({ingredients, popupSettings}){
     {/*Ниже по соответствующим массивам распределяем игредиенты*/}
     const [main, bun, sauce] = [[],[],[]]
-    ingredients.ingreds.forEach(ingred => {
+    ingredients.forEach(ingred => {
         ingred.type === 'bun'   ? bun.push(ingred)  :
         ingred.type === 'main'  ? main.push(ingred) :
         ingred.type === 'sauce' ? sauce.push(ingred): console.log("Нужный тип не найден")
     })
-
     //console.log(main, bun, sauce)
 
     return(<section className={s.brg_ingredients}>
         <h2 className='text text_type_main-large mt-15'>Соберите бургер</h2>
         <NavIngred/>
         <div className={s.Ingredients}>
-            <Ingredient ingredients={bun}>Булки</Ingredient>
-            <Ingredient ingredients={sauce}>Соусы</Ingredient>
-            <Ingredient ingredients={main}>Начинка</Ingredient>
+            <Ingredient ingredients={bun}   popupSettings={popupSettings}>Булки</Ingredient>
+            <Ingredient ingredients={sauce} popupSettings={popupSettings}>Соусы</Ingredient>
+            <Ingredient ingredients={main}  popupSettings={popupSettings}>Начинка</Ingredient>
         </div>
 
     </section>

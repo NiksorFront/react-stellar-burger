@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./app.module.css";
 import { data } from "../../utils/data";
 import request from "../api/API";
 import AppHeader from "../app-header/app-header"
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import ModalOverlay from "../modal-overlay/modal-overlay";
+import Modal from "../modal/modal.jsx";
 
 {/*На слуачай отсутствия интернета */}
 const pseudo = {success: false, data: [{ "_id": "643d69a5c3f7b9001cfa093c",
@@ -51,6 +53,9 @@ const pseudo = {success: false, data: [{ "_id": "643d69a5c3f7b9001cfa093c",
 
 function App(){
   const [ingreds, setIngreds] = useState(pseudo);
+  const [popupTrFal, setPopupTrFal] = useState(false);
+  const [popupCont, setPopupCont] = useState({title: "",
+                                              content: ""})
   
   const handleRequest = async() => {
     await request('ingredients')
@@ -60,7 +65,7 @@ function App(){
 
   useEffect(() => {
     handleRequest();
-    console.log(ingreds);
+    //console.log(ingreds);
   }, [])
 
 
@@ -68,9 +73,13 @@ function App(){
     <div className={styles.app}>
       <AppHeader/>
       <main className={styles.main}>
-        <BurgerIngredients ingreds={ingreds.data}/>
-        <BurgerConstructor/>
+        <BurgerIngredients ingredients={ingreds.data} popupSettings={{setPopupTrFal, setPopupCont}}/>
+        <BurgerConstructor ingredients={ingreds.data} popupSettings={{setPopupTrFal, setPopupCont}}/>
       </main>
+      <ModalOverlay display={popupTrFal} 
+                    WindowModal={<Modal content={popupCont}
+                                        openPopup={setPopupTrFal}/>}
+      />
     </div>
   );
 }
