@@ -1,19 +1,18 @@
 import s from "./modal.module.css"
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
-import { useState, useEffect } from "react"
+import { useState, useEffect, Children } from "react"
+import ModalOverlay from "../modal-overlay/modal-overlay";
 
-export default function Modal({content, openPopup}){
+export default function Modal({display, openPopup, title, children}){
+    const ESC_KEY_CODE = 27;
+
     useEffect(() => {
         //Закрытие по нажатию на esc
-        const closeEsc = (e) => {e.keyCode === 27 
-                             ? openPopup(false) 
-                             : console.log("для закрытия нажмите esc")}
+        const closeEsc = (e) => {e.keyCode === ESC_KEY_CODE && openPopup(false)}
         document.addEventListener('keydown', closeEsc)
         
         //Устанавливаем закрытие по нажатию на тёмный фон.
-        const closeBackgound = (e) => {e.target.tagName === 'SECTION' //Я решил не прокидвать портал и наржуать всё, а сделать просто сверку с тем section это или нет
-                                        ? openPopup(false)
-                                        : console.log("для закрытия нажмите на тёмный фон")}
+        const closeBackgound = (e) => {e.target.tagName === 'SECTION' && openPopup(false)} //Я решил не прокидвать портал и наржуать всё, а сделать просто сверку с тем section это или нет
         document.addEventListener('click', closeBackgound)
         
         return () => {document.removeEventListener('keydown', closeEsc); 
@@ -21,12 +20,13 @@ export default function Modal({content, openPopup}){
                       
     },[])
 
-    //{content.popupContent.title}
-    return(<div className={s.modal}>
-        <div className={s.title}>
-            <h3 className="text text_type_main-large">{content.title}</h3>
-            <CloseIcon type="primary" onClick={() => openPopup(false)} />
+    return(<ModalOverlay display={display}>  
+        <div className={s.modal}>
+            <div className={s.title}>
+                <h1 className="text text_type_main-large">{title}</h1>
+                <CloseIcon type="primary" onClick={() => openPopup(false)} />
+            </div>
+            {children}
         </div>
-        {content.content}
-    </div>)
+    </ModalOverlay>)
 }

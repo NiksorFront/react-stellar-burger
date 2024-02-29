@@ -5,7 +5,6 @@ import request from "../api/API";
 import AppHeader from "../app-header/app-header"
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import ModalOverlay from "../modal-overlay/modal-overlay";
 import Modal from "../modal/modal.jsx";
 
 {/*На слуачай отсутствия интернета */}
@@ -76,10 +75,9 @@ function App(){
         <BurgerIngredients ingredients={ingreds.data} popupSettings={{setPopupTrFal, setPopupCont}}/>
         <BurgerConstructor ingredients={ingreds.data} popupSettings={{setPopupTrFal, setPopupCont}}/>
       </main>
-      <ModalOverlay display={popupTrFal} 
-                    WindowModal={<Modal content={popupCont}
-                                        openPopup={setPopupTrFal}/>}
-      />
+      <Modal display={popupTrFal} openPopup={setPopupTrFal} title={popupCont.title}>
+        {popupCont.content}{/*По сути тут отображается <OrderDetails /> или <IngredientDetails />*/}
+      </Modal>
     </div>
   );
 }
