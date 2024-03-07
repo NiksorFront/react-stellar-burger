@@ -1,6 +1,7 @@
 import s from "./modal.module.css"
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
-import { useState, useEffect, Children } from "react"
+import { useEffect} from "react"
+import { createPortal } from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 
 export default function Modal({display, openPopup, title, children}){
@@ -20,7 +21,7 @@ export default function Modal({display, openPopup, title, children}){
                       
     },[])
 
-    return(<ModalOverlay display={display}>  
+    return createPortal((<ModalOverlay display={display}>  
         <div className={s.modal}>
             <div className={s.title}>
                 <h1 className="text text_type_main-large">{title}</h1>
@@ -28,5 +29,5 @@ export default function Modal({display, openPopup, title, children}){
             </div>
             {children}
         </div>
-    </ModalOverlay>)
+    </ModalOverlay>), document.body)
 }
