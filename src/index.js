@@ -4,6 +4,18 @@ import "./index.css";
 import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 
+/*Код, чтобы расширение работало
+import { compose, createStore, applyMiddleware } from 'redux';
+const composeEnhancers =
+  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : compose;
+
+const enhancer = composeEnhancers();
+
+const store = createStore(rootReducer, enhancer); 
+*/
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
