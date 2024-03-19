@@ -2,15 +2,17 @@ import React from "react"
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import s from "./ingredient.module.css"
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { useDispatch} from "react-redux";
+import { popupContent, popupOpen } from "../../services/Slice/modalSlice";
 
-export default function Ingredient({children, ingredients, popupSettings}){
+export default function Ingredient({children, ingredients}){
     const count = "";
+    const dispatch = useDispatch();
 
     
     function Popup(ingr){
-        console.log(ingr)
-        popupSettings.setPopupTrFal(true)
-        popupSettings.setPopupCont({
+        dispatch(popupOpen(true))
+        dispatch(popupContent({
             title:"Детали ингредиента",
             content: <IngredientDetails imageURL={ingr.image_large}  
                                         title={ingr.name}
@@ -18,7 +20,7 @@ export default function Ingredient({children, ingredients, popupSettings}){
                                         proteins={ingr.proteins} 
                                         fats={ingr.fat} 
                                         carbohydrates={ingr.carbohydrates}/>,
-        })
+        }))
     }
 
     return(<div>

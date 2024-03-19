@@ -1,17 +1,23 @@
 import s from "./burger-constructor.module.css"
 import { ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components"
 import OrderDetails from "../order-details/order-details"
+import { useDispatch, useSelector } from "react-redux"
+import { newIngred} from '../../services/Slice/burgerConstructorSlice'
+import { popupContent, popupOpen } from "../../services/Slice/modalSlice"
 
 
-export default function BurgerConstructor({ingredients, popupSettings}){
+export default function BurgerConstructor(){
+    const ingredients = useSelector(state => state.burgerConstructor)
+
+    const dispatch = useDispatch()
     {/*Ниже высвечиваются вообще все компоненты, НО, я так понимаю, 
        в дальнешйем его релизация будет через общий с BurgerConstructor props*/}
     function Popup(){
-        popupSettings.setPopupTrFal(true)
-        popupSettings.setPopupCont({
+        dispatch(popupOpen(true))
+        dispatch(popupContent({
             title:"",
             content: <OrderDetails />,
-        })
+        }))
     }
     return( <section className={s.brg_construct}>
                 <div className={s.constructor}>

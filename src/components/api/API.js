@@ -6,6 +6,7 @@ function getResponse(res){
            : res.json().then(err => Promise.reject(err))
 }
 
+//Доступные endopoint'ы - 'ingredients'
 export default async function request(endpoint){
     const res = await fetch(`${URL}/${endpoint}`)
 
