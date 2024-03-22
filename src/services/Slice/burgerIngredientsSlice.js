@@ -19,7 +19,7 @@ export const BurgerIngredientsSlice = createSlice({
     name: 'BurgerIngredients',
     initialState,
     reducers: {
-      incrementByValue: (state, action) => state + action.payload,
+      count: (state, {payload: [index, cnt]}) => {state.data[index].__v = cnt},
     },
     extraReducers: (builder) => {
       builder.addCase(requestСomponents.pending, () => console.log("Ждём данные с сервера"));//загрузка
@@ -30,7 +30,9 @@ export const BurgerIngredientsSlice = createSlice({
 
       //builder.addCase(handleRequest.rejected, (state, action) => {})                       //ошибка
     }
-  }) 
+  })
+
+export const countIngreds = BurgerIngredientsSlice.actions.count;
 
   
 const burgerIngredients = BurgerIngredientsSlice.reducer;

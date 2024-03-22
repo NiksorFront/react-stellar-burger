@@ -7,8 +7,8 @@ export const burgerConstructorSlice = createSlice({
     name: 'constructorIngredients',
     initialState,
     reducers: {
-      addIngredient: (state, action) => {state.push(action.payload)},
-      deleteIngredient: (state, action) => {state = state.filter(ingr => ingr.id !== action.payload)}
+      addIngredient: (state, {payload: [ingredient, index]}) => {state.splice(index, 0, ingredient);},
+      deleteIngredient: (state, {payload: index}) => {state.splice(index, 1) }
       // state.push(action.payload)
     },
   }) 

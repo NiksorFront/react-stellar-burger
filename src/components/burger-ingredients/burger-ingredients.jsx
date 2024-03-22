@@ -42,6 +42,7 @@ export default function BurgerIngredients(){
     //const [bun, main, sauce] = useMemo(() => values(ingredients), ingredients)
     const [bun, main, sauce] = values(ingreds.data);
 
+    //console.log(ingreds.data)
     useEffect(() => {
         dispatch(requestСomponents()) //Запрашиваем и получаем список компонентов с сервера
     }, [])
