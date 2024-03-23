@@ -23,13 +23,13 @@ export default function BurgerConstructor(){
                                                                 ingreds.forEach((item, i) => { //Удаляем предыдущую, если она есть
                                                                     if (item.__v === 1 && item.type === "bun") {       
                                                                         dispatch(countIngreds([i, 0]))  //Cчётчик в ноль
-                                                                        dispatch(delIngred(-1))
+                                                                        dispatch(delIngred(ingredients.length-1))
                                                                         dispatch(delIngred(0)) 
                                                                     }
                                                                 })
                                                                 dispatch(countIngreds([index, 1]))   //+1 к счётчику
                                                                 dispatch(addIngred([ingrd, 0]))      //Добаляем перенесённый объект в ingredients
-                                                                dispatch(addIngred([ingrd, ingredients.length]))
+                                                                dispatch(addIngred([ingrd, ingredients.length+1]))
                                                             }//Всё, что не булочки - спокойно добавляем
                                                             else{
                                                                 const count = ingrd.__v + 1
@@ -57,9 +57,10 @@ export default function BurgerConstructor(){
         ingreds.forEach((ingrd, i) => {
             if (ingrd._id === id) {
                 if (ingrd.type === "bun"){
-                    dispatch(countIngreds([i, 0]))  //Cчётчик в ноль
+                    console.log(1)
+                    dispatch(countIngreds([i, 0]))      //Cчётчик в ноль
+                    dispatch(delIngred(ingredients.length-1))
                     dispatch(delIngred(0))          
-                    dispatch(delIngred(-1))
                 }else{
                     const count = ingrd.__v - 1
                     dispatch(countIngreds([i, count]))  //Меняем значение счётчика
@@ -82,7 +83,7 @@ export default function BurgerConstructor(){
                         e += 1;
                         return(
                             <ConstructorElement
-                                key={ingred._id}
+                                key={Math.random()}
                                 isLocked={false}
                                 type={e === 1   ? "top" :    //Каждому первому элементу указываем, что он "top"
                                     e === len && "bottom"} //Кажому последнему указываем, что он "bottom"     
