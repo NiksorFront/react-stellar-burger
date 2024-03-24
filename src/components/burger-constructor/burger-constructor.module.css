@@ -31,8 +31,6 @@
     scrollbar-width: thin;
 }
 
-
-
 .constructor::-webkit-scrollbar {
     width: 8px;
 }
@@ -55,4 +53,11 @@
     align-items: center;
     flex-wrap: nowrap;
     gap: 8px;
+}
+
+.ingredient{
+
+    background: linear-gradient(90.00deg, Violet,rgba(123, 123, 123, 0) 0%);
+    /* border: dashed 2px rgba(254, 36, 232, 0); Цвет добавлен и выставлен в 0, чтобы рамка типа "была" и при наведении у нас не менялась вёрстка */
+    border-radius: 33px;
 }

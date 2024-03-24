@@ -1,17 +1,17 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import request from "../../components/api/API";
+import {request} from "../../components/api/API";
 
 const initialState = {success: false, data: []}
 
 export const requestСomponents = createAsyncThunk(
   'BurgerIngredients/requestData',
-  async () => {
-    const itog = await request('ingredients')
-                       .then(res => res)
-                       .catch(err => console.log(err));
+  () => {const itog = request('ingredients')
+                      .then(res => res)
+                      .catch(err => console.log(err));
 
-    return itog;
-})
+        return itog;
+        }
+)
 
 
 //список всех полученных ингредиентов
