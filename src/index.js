@@ -4,6 +4,9 @@ import "./index.css";
 import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 
+import {Provider} from "react-redux"
+import {store} from "./services/index"
+
 /*Код, чтобы расширение работало
 import { compose, createStore, applyMiddleware } from 'redux';
 const composeEnhancers =
@@ -18,7 +21,9 @@ const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
