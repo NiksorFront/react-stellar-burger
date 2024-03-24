@@ -5,9 +5,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch } from 'react-redux'
 import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice"
 
-function NavIngred(){
-    const [current, setCurrent] = useState('one')
-
+function NavIngred({current, setCurrent}){
     return(
         <div style={{ display: 'flex' }} className="mt-5">
             <Tab value="one" active={current === 'one'} onClick={setCurrent}>
@@ -42,15 +40,28 @@ export default function BurgerIngredients(){
     //const [bun, main, sauce] = useMemo(() => values(ingredients), ingredients)
     const [bun, main, sauce] = values(ingreds.data);
 
-    //console.log(ingreds.data)
+    
     useEffect(() => {
         dispatch(requestСomponents()) //Запрашиваем и получаем список компонентов с сервера
     }, [])
 
+
+    const [scrollPos, setScrollPos] = useState('one')
+    const scroll = event => {
+        const pos = event.currentTarget.scrollTop;
+
+        (pos < 300) 
+            ? setScrollPos("one")
+        :(pos < 800)
+            ? setScrollPos("two")
+        : setScrollPos("three")
+    }
+
+
     return(<section className={s.brg_ingredients}>
         <h2 className='text text_type_main-large mt-15'>Соберите бургер</h2>
-        <NavIngred/>
-        <div className={s.Ingredients}>
+        <NavIngred current={scrollPos} setCurrent={setScrollPos}/>
+        <div className={s.Ingredients} onScroll={scroll}>
             <Ingredient ingredients={bun}  >Булки</Ingredient>
             <Ingredient ingredients={sauce}>Соусы</Ingredient>
             <Ingredient ingredients={main} >Начинка</Ingredient>
