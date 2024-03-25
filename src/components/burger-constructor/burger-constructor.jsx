@@ -83,7 +83,12 @@ export default function BurgerConstructor(){
 
     {/*Функционал бросания элмента */}
     function isDrop(itemId){
-        ingreds.forEach((ingrd, index) => {
+        ingreds.forEach((ingredient, index) => {
+            const ingrd = {
+                ...ingredient,
+                uniqueId: uuidv4(), //Не ingred._id, потому что одинаковых эллементов может бвть много, а key должен быть всегда разный
+            }
+                        
             if (ingrd._id === itemId.id) {
                 if(ingrd.type === 'bun'){      //Проверяем булочка ли сейчас
                     ingreds.forEach((item, i) => { //Удаляем предыдущую, если она есть
@@ -95,7 +100,7 @@ export default function BurgerConstructor(){
                     })
                     dispatch(countIngreds([index, 1]))   //+1 к счётчику
                     dispatch(addIngred([ingrd, 0]))      //Добаляем перенесённый объект в ingredients
-                    dispatch(addIngred([ingrd, ingredients.length+1]))
+                    dispatch(addIngred([{...ingrd, uniqueId: uuidv4()}, ingredients.length+1]))
                 }//Всё, что не булочки - спокойно добавляем
                 else{
                     const count = ingrd.__v + 1
@@ -131,16 +136,15 @@ export default function BurgerConstructor(){
                      ref={dropTarget}>
                 <div className={s.constructor}>
                     {ingredients.map((ingred, index) => {
-                        const uniqueId = uuidv4(); //Не ingred._id, потому что одинаковых эллементов может бвть много, а key должен быть всегда разный
                         e += 1;
-                        return <IngrInConstructor key={uniqueId} ingred={ingred} index={index} e={e} len={len} deleteElement={deleteElement}/>
+                        return <IngrInConstructor key={ingred.uniqueId} ingred={ingred} index={index} e={e} len={len} deleteElement={deleteElement}/>
                     })}
                 </div>
                 <div className={s.info}>
                     <p className="text text_type_digits-medium">{totalPrice}</p>
                     <CurrencyIcon type="primary" />
-                
-                    <Button htmlType="button" type="primary" size="large" onClick={len && popup} style={{alignSelf: 'end'}}>
+                    
+                    <Button htmlType="button" type="primary" disabled={!len} size="large" onClick={popup}>
                         Оформить заказ
                     </Button>
                 </div>

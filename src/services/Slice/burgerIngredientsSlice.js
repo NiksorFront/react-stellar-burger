@@ -18,7 +18,7 @@ export const BurgerIngredientsSlice = createSlice({
     name: 'BurgerIngredients',
     initialState,
     reducers: {
-      count: (state, {payload: [index, cnt]}) => {state.data[index].__v = cnt},
+      countIngreds: (state, {payload: [index, cnt]}) => {state.data[index].__v = cnt},
     },
     extraReducers: (builder) => {
       builder.addCase(requestСomponents.pending, () => console.log("Ждём данные с сервера"));//загрузка
@@ -31,7 +31,7 @@ export const BurgerIngredientsSlice = createSlice({
     }
   })
 
-export const countIngreds = BurgerIngredientsSlice.actions.count;
+export const countIngreds = BurgerIngredientsSlice.actions.countIngreds;
 
   
 const burgerIngredients = BurgerIngredientsSlice.reducer;

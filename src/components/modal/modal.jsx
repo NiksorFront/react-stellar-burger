@@ -3,16 +3,10 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useEffect} from "react"
 import { createPortal } from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch} from "react-redux";
 import { popupOpen } from "../../services/Slice/modalSlice";
-import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 
-export default function Modal(){
-    const popupTitle = useSelector(state => state.modal.data.title)
-    const popupModal = useSelector(state => state.modal.data.modal)
-    const popupContent = useSelector(state => state.modal.data.content)
-
+export default function Modal({children, title}){
     const dispatch = useDispatch();
 
     const closeModal = () => dispatch(popupOpen(false))
@@ -35,16 +29,10 @@ export default function Modal(){
     return createPortal((<ModalOverlay>  
         <div className={s.modal}>
             <div className={s.title}>
-                <h1 className="text text_type_main-large">{popupTitle}</h1>
+                <h1 className="text text_type_main-large">{title}</h1>
                 <CloseIcon type="primary" onClick={() => closeModal()} />
             </div>
-            {popupModal==="OrderDetails"      && <OrderDetails />}
-            {popupModal==="IngredientDetails" && <IngredientDetails imageURL  =   {popupContent.image_large}  
-                                                                    title     =   {popupContent.name}
-                                                                    calories  =   {popupContent.calories} 
-                                                                    proteins  =   {popupContent.proteins} 
-                                                                    fats      =   {popupContent.fat} 
-                                                                    carbohydrates={popupContent.carbohydrates}/>}
+            {children}
         </div>
     </ModalOverlay>), document.getElementById("modals"))
 }

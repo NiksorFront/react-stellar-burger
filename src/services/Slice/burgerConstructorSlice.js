@@ -7,9 +7,9 @@ export const burgerConstructorSlice = createSlice({
     name: 'constructorIngredients',
     initialState,
     reducers: {
-      addIngredient: (state, {payload: [ingredient, index]}) => {state.splice(index, 0, ingredient);},
-      deleteIngredient: (state, {payload: index}) => {state.splice(index, 1) }, 
-      replaceIngredient: (state, {payload: [indexOld, indexNew]}) => {const itemOld = state[indexOld];
+      addIngred: (state, {payload: [ingredient, index]}) => {state.splice(index, 0, ingredient);},
+      delIngred: (state, {payload: index}) => {state.splice(index, 1) }, 
+      repIngred: (state, {payload: [indexOld, indexNew]}) => {const itemOld = state[indexOld];
                                                                       const itemNew = state[indexNew];
                                                                       state.splice(indexNew, 1, itemOld);
                                                                       state.splice(indexOld, 1, itemNew);
@@ -20,9 +20,9 @@ export const burgerConstructorSlice = createSlice({
 
 //allIngredientsSlice.actions
 
-export const addIngred = burgerConstructorSlice.actions.addIngredient;
-export const delIngred = burgerConstructorSlice.actions.deleteIngredient;
-export const repIngred = burgerConstructorSlice.actions.replaceIngredient;
+export const addIngred = burgerConstructorSlice.actions.addIngred;
+export const delIngred = burgerConstructorSlice.actions.delIngred;
+export const repIngred = burgerConstructorSlice.actions.repIngred;
 
 const burgerConstructor = burgerConstructorSlice.reducer;
 export default burgerConstructor;

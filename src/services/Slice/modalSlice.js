@@ -9,13 +9,13 @@ export const modalSlice = createSlice({
     name: "modal",
     initialState,
     reducers:{
-        open: (state, action) => {state.open = action.payload},
-        content: (state, action) => {state.data = action.payload; }
+        popupOpen: (state, action) => {state.open = action.payload},
+        popupContent: (state, action) => {state.data = action.payload; }
     }
 })
 
-export const popupOpen = modalSlice.actions.open;
-export const popupContent = modalSlice.actions.content;
+export const popupOpen = modalSlice.actions.popupOpen;
+export const popupContent = modalSlice.actions.popupContent;
 
 const modal = modalSlice.reducer
 export default modal;
