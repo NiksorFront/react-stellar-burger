@@ -1,17 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { requestNumber } from "../../components/api/API";
+import { requestNumber } from "../../utils/API";
 
 const initialState = {number: ""}
 
 export const reqOrder = createAsyncThunk(
     "order/requestOrder",
     ([ingredients, endpoint]) => {
-        const itog = requestNumber([{"ingredients": ingredients},endpoint])
-                     .then(res => res.order.number)
-                     .catch("error")
+        const result = requestNumber([{"ingredients": ingredients},endpoint])
+                       .then(res => res.order.number)
 
-        //console.log(itog)
-        return itog;
+        return result;
     }
 )
 export const orderSplice = createSlice({
@@ -25,6 +23,8 @@ export const orderSplice = createSlice({
         
         builder.addCase(reqOrder.fulfilled,
                         (state, action) => {state.number = action.payload});
+
+        builder.addCase(reqOrder.rejected, (state) => {state.number = "error"});
     }
 })
 

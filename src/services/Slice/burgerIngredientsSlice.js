@@ -1,15 +1,14 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import {request} from "../../components/api/API";
+import {request} from "../../utils/API";
 
 const initialState = {success: false, data: []}
 
 export const requestСomponents = createAsyncThunk(
   'BurgerIngredients/requestData',
-  () => {const itog = request('ingredients')
-                      .then(res => res)
-                      .catch(err => console.log(err));
+  () => {const result = request('ingredients')
+                        .then(res => res)
 
-        return itog;
+         return result;
         }
 )
 
@@ -28,7 +27,7 @@ export const BurgerIngredientsSlice = createSlice({
                       (state, action) => {state.success = action.payload.success
                                           state.data = action.payload.data      }); 
 
-      //builder.addCase(handleRequest.rejected, (state, action) => {})                       //ошибка
+      builder.addCase(requestСomponents.rejected, () => console.log("Ошибка загузки"))           //ошибка
     }
   })
 

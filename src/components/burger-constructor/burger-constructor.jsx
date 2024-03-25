@@ -1,14 +1,13 @@
 import s from "./burger-constructor.module.css"
 import { ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components"
-import OrderDetails from "../order-details/order-details"
+import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from "react-redux"
 import { delIngred, addIngred, repIngred} from '../../services/Slice/burgerConstructorSlice'
 import { popupContent, popupOpen } from "../../services/Slice/modalSlice"
-import { DndProvider, useDrag, useDrop } from "react-dnd"
+import { useDrag, useDrop } from "react-dnd"
 import { countIngreds } from "../../services/Slice/burgerIngredientsSlice"
 import { useMemo, useRef } from "react"
 import { reqOrder } from "../../services/Slice/orderSlice"
-import { HTML5Backend } from "react-dnd-html5-backend"
 
 
 function IngrInConstructor({ingred, index, len, e, deleteElement}){ 
@@ -33,16 +32,20 @@ function IngrInConstructor({ingred, index, len, e, deleteElement}){
     const dragDropRef = dragIng(dropIng(ref))
     
     return(<div ref={(ingred.type === "bun") ? refBun : dragDropRef}
-                className={s.ingredient}
-                style={{background:  isHover ? "linear-gradient(90.00deg, Violet,rgba(123, 123, 123, 0) 97%)"   //Если предмет в границах блока, то прозрачности рамки нет,
-                                             : "rgba(254, 36, 232, 0)",                                         //Если предмет не в границах блока, то рамка прозрачна 
-                        opacity: isDraging ? 0.5 : 1}}                                                          //Делаем элемент полупрозрачным при перетаскивании
+                className={`${s.ingredient}
+                            ${isHover && s.ingredient_gradient}
+                            ${isDraging && s.ingredient_opacity}` 
+                            //isHover - Если предмет в границах блока, то на фоне градиентик
+                            //isDraging - Делаем элемент полупрозрачным при перетаскивании
+                          }                    
             >
                 <ConstructorElement
-                    isLocked={false}
+                    isLocked={e === 1   ? true :    
+                              e === len && true}
                     type={e === 1   ? "top" :    //Каждому первому элементу указываем, что он "top"
                           e === len && "bottom"} //Кажому последнему указываем, что он "bottom"     
-                    text={ingred.name}
+                    text={e === 1   ? ingred.name+" (верх)":    
+                          e === len ? ingred.name+" (низ)" : ingred.name}
                     price={ingred.price}
                     thumbnail={ingred.image_mobile}
                     handleClose={()=>deleteElement(ingred._id, index)}
@@ -111,11 +114,11 @@ export default function BurgerConstructor(){
 
 
     {/*Функционал окна с оформленным заказом*/}
-    function Popup(){
+    function popup(){
         dispatch(popupOpen(true))
         dispatch(popupContent({
             title:"",
-            content: <OrderDetails />,
+            modal: "OrderDetails",
         }))
         dispatch(reqOrder([ingredients.map(ing => ing._id), 'orders'])) //Запрашиваем данные с номером заказа
     }
@@ -123,28 +126,24 @@ export default function BurgerConstructor(){
     let e = 0;                      //Счётчик элементов
     const len = ingredients.length; //Количество всех элементов
     let totalPrice = useMemo(() => {return ingredients.reduce((Summa, ingrd) => Summa + ingrd.price, 0)}, [len]); //Общая цена
-    return( <section className={s.brg_construct}
-                     ref={dropTarget}
-                     style={{borderColor: isHover ? "rgba(254, 36, 232, 1)"   //Если предмет в границах блока, то прозрачности рамки нет,
-                                                  : "rgba(254, 36, 232, 0)"}} //Если предмет не в границах блока, то рамка прозрачна 
-                    >
-                <DndProvider backend={HTML5Backend}>
+    return( <section className={`${s.brg_construct}
+                                ${isHover && s.brg_construct_opacity}`}//Если предмет в границах блока, то прозрачности рамки нет,
+                     ref={dropTarget}>
                 <div className={s.constructor}>
                     {ingredients.map((ingred, index) => {
-                        const id = Math.random(); //Не ingred._id, потому что одинаковых эллементов может бвть много, а key должен быть всегда разный
+                        const uniqueId = uuidv4(); //Не ingred._id, потому что одинаковых эллементов может бвть много, а key должен быть всегда разный
                         e += 1;
-                        return <IngrInConstructor key={id} ingred={ingred} index={index} e={e} len={len} deleteElement={deleteElement}/>
+                        return <IngrInConstructor key={uniqueId} ingred={ingred} index={index} e={e} len={len} deleteElement={deleteElement}/>
                     })}
                 </div>
                 <div className={s.info}>
                     <p className="text text_type_digits-medium">{totalPrice}</p>
                     <CurrencyIcon type="primary" />
                 
-                    <Button htmlType="button" type="primary" size="large" onClick={Popup} style={{alignSelf: 'end'}}>
+                    <Button htmlType="button" type="primary" size="large" onClick={len && popup} style={{alignSelf: 'end'}}>
                         Оформить заказ
                     </Button>
                 </div>
-                </DndProvider>
             </section>
     )
 }

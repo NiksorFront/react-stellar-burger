@@ -1,6 +1,6 @@
 import {useState, useMemo, useEffect} from 'react'
 import s from './burger-ingredients.module.css'
-import Ingredient from '../ingredient/ingredient'
+import IngredientList from '../ingredient-list/ingredient-list'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch } from 'react-redux'
 import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice"
@@ -9,13 +9,13 @@ function NavIngred({current, setCurrent}){
     return(
         <div style={{ display: 'flex' }} className="mt-5">
             <Tab value="one" active={current === 'one'} onClick={setCurrent}>
-                One
+                Булки
             </Tab>
             <Tab value="two" active={current === 'two'} onClick={setCurrent}>
-                Two
+                Соусы
             </Tab>
             <Tab value="three" active={current === 'three'} onClick={setCurrent}>
-                Three
+                Начинки
             </Tab>
         </div>
     )
@@ -62,9 +62,9 @@ export default function BurgerIngredients(){
         <h2 className='text text_type_main-large mt-15'>Соберите бургер</h2>
         <NavIngred current={scrollPos} setCurrent={setScrollPos}/>
         <div className={s.Ingredients} onScroll={scroll}>
-            <Ingredient ingredients={bun}  >Булки</Ingredient>
-            <Ingredient ingredients={sauce}>Соусы</Ingredient>
-            <Ingredient ingredients={main} >Начинка</Ingredient>
+            <IngredientList ingredients={bun}  >Булки</IngredientList>
+            <IngredientList ingredients={sauce}>Соусы</IngredientList>
+            <IngredientList ingredients={main} >Начинка</IngredientList>
         </div>
 
     </section>
