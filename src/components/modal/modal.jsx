@@ -3,17 +3,22 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useEffect} from "react"
 import { createPortal } from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
+import { useDispatch} from "react-redux";
+import { popupOpen } from "../../services/Slice/modalSlice";
 
-export default function Modal({display, openPopup, title, children}){
+export default function Modal({children, title}){
+    const dispatch = useDispatch();
+
+    const closeModal = () => dispatch(popupOpen(false))
+
     const ESC_KEY_CODE = 27;
-
     useEffect(() => {
         //Закрытие по нажатию на esc
-        const closeEsc = (e) => {e.keyCode === ESC_KEY_CODE && openPopup(false)}
+        const closeEsc = (e) => {e.keyCode === ESC_KEY_CODE && closeModal()}
         document.addEventListener('keydown', closeEsc)
         
         //Устанавливаем закрытие по нажатию на тёмный фон.
-        const closeBackgound = (e) => {e.target.tagName === 'SECTION' && openPopup(false)} //Я решил не прокидвать портал и наржуать всё, а сделать просто сверку с тем section это или нет
+        const closeBackgound = (e) => {e.target.tagName === 'SECTION' && closeModal()}
         document.addEventListener('click', closeBackgound)
         
         return () => {document.removeEventListener('keydown', closeEsc); 
@@ -21,13 +26,13 @@ export default function Modal({display, openPopup, title, children}){
                       
     },[])
 
-    return createPortal((<ModalOverlay display={display}>  
+    return createPortal((<ModalOverlay>  
         <div className={s.modal}>
             <div className={s.title}>
                 <h1 className="text text_type_main-large">{title}</h1>
-                <CloseIcon type="primary" onClick={() => openPopup(false)} />
+                <CloseIcon type="primary" onClick={() => closeModal()} />
             </div>
             {children}
         </div>
-    </ModalOverlay>), document.body)
+    </ModalOverlay>), document.getElementById("modals"))
 }
