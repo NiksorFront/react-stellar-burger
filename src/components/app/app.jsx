@@ -15,6 +15,10 @@ function App(){
   const popupTrueFalse = useSelector(state => state.modal.open)
   const popupTitle = useSelector(state => state.modal.data.title)
   const popupModal = useSelector(state => state.modal.data.modal)
+  
+  const data = useSelector(state => state.profile)
+  console.log(data)
+
 
   return (
     <div className={styles.app}>

@@ -2,26 +2,36 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-dev
 import s from './app-header.module.css';
 
 export default function AppHeader() {
-  return (
-    <header className={s.header}>
-        <nav className={s.content}>
-            <div className={s.navigation}>
-                <a className={s.navigation__link}>
-                    <BurgerIcon type="primary"/>
-                    <p className="text text_type_main-default">Конструктор</p>
+
+    const activConstr = window.location.pathname === "/" 
+                    ? ['primary', 'text_color_active' ] 
+                    : ['secondary', 'text_color_inactive']
+
+    const activProf = window.location.pathname === "/profile" 
+                    ? ['primary', 'text_color_active' ] 
+                    : ['secondary', 'text_color_inactive']
+
+    
+    return (
+        <header className={s.header}>
+            <nav className={s.content}>
+                <div className={s.navigation}>
+                    <a href="/" className={s.navigation__link}>
+                        <BurgerIcon type={activConstr[0]}/>
+                        <p className={`text text_type_main-default ${activConstr[1]}`}>Конструктор</p>
+                    </a>
+                    <a className={s.navigation__link}>
+                        <ListIcon type="secondary"/>
+                        <p className="text text_type_main-default text_color_inactive">Лента заказов</p>
+                    </a>
+                </div> 
+                <Logo />
+                <a href="/profile" className={s.navigation__link}>
+                    <ProfileIcon type={activProf[0]}/>
+                    <p className={`text text_type_main-default ${activProf[1]}`}>Личный кабинет</p>
                 </a>
-                <a className={s.navigation__link}>
-                    <ListIcon type="secondary"/>
-                    <p className="text text_type_main-default text_color_inactive">Лента заказов</p>
-                </a>
-            </div>
-            <Logo />
-            <a className={s.navigation__link}>
-                <ProfileIcon type="secondary"/>
-                <p className="text text_type_main-default text_color_inactive">Личный кабинет</p>
-            </a>
-        </nav>
-    </header>
-  );
+            </nav>
+        </header>
+    );
 
 }

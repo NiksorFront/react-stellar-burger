@@ -1,23 +1,33 @@
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components"
 import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
-import { useRef, useState } from "react";
-import { requestNumber } from "../../utils/API";
+import { useEffect, useState } from "react";
+import { requestPost } from "../../utils/API";
+import { useDispatch } from "react-redux";
+import updateData from "../../utils/data";
 
 
 export default function ResetPassword(){
     const [mail, setMail] = useState('');
     const [code, setCode] = useState('');
     const [butDisbld, setButDisbld] = useState(!mail.length || !code.length);
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    useEffect(async () => {
+        const isAuth = await updateData(dispatch); //Обновляем хранилище данными с сервера
+
+        const transfer = (window.history.state.usr === "transferTrue") ? false : true ;
+        (isAuth || transfer) && navigate("/")     //Переброс пользователя к конструктору, если он авторизирован          
+    }, [])
 
     const resetRequest = () => {
         setButDisbld(true)
-        requestNumber([{"password": mail,
+        requestPost([{"password": mail,
                         "token": code}, "password-reset/reset"])  //Почему-то пишет, что такой URL не найден, хотя я его беру из задания
         .then(res => {
             console.log(res)
-            //Тут чёто будет
+            //Тут чёто будет, когда "password-reset/reset" заработает
             }
         )
         .catch(res => console.log("Ошибка"))
@@ -36,7 +46,6 @@ export default function ResetPassword(){
             onChange={e => {setCode(e.target.value); setButDisbld(mail.length<2 || code.length<2)}}
             value={code}
             name={'name'}
-            error={false}
             errorText={'Ошибка'}
             size={'default'}
             extraClass="mt-6"

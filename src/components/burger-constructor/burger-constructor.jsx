@@ -8,6 +8,8 @@ import { useDrag, useDrop } from "react-dnd"
 import { countIngreds } from "../../services/Slice/burgerIngredientsSlice"
 import { useMemo, useRef } from "react"
 import { reqOrder } from "../../services/Slice/orderSlice"
+import updateData from "../../utils/data";
+import { useNavigate } from "react-router-dom";
 
 
 function IngrInConstructor({ingred, index, len, e, deleteElement}){ 
@@ -58,7 +60,8 @@ export default function BurgerConstructor(){
 
     const ingreds = useSelector((state) => state.burgerIngredients.data) //Список с ваще всеми ингредиентами 
     const ingredients = useSelector(state => state.burgerConstructor)    //Список с теми ингредентами, что в BurgerConstructor
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
 
     {/*Функционал удаления элемента*/}
@@ -119,13 +122,18 @@ export default function BurgerConstructor(){
 
 
     {/*Функционал окна с оформленным заказом*/}
-    function popup(){
-        dispatch(popupOpen(true))
-        dispatch(popupContent({
-            title:"",
-            modal: "OrderDetails",
-        }))
-        dispatch(reqOrder([ingredients.map(ing => ing._id), 'orders'])) //Запрашиваем данные с номером заказа
+    async function popup(){
+        const isAuth = await updateData(dispatch); //Обновляем хранилище данными с сервера
+        if(isAuth){
+            dispatch(popupOpen(true))
+            dispatch(popupContent({
+                title:"",
+                modal: "OrderDetails",
+            }))
+            dispatch(reqOrder([ingredients.map(ing => ing._id), 'orders'])) //Запрашиваем данные с номером заказа
+        }else{
+            navigate("/login")
+        }
     }
     
     let e = 0;                      //Счётчик элементов

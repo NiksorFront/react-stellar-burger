@@ -1,21 +1,29 @@
-import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components"
+import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components"
 import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
-import { useRef, useState } from "react";
-import { requestNumber } from "../../utils/API";
+import { useEffect, useState } from "react";
+import { requestPost } from "../../utils/API";
+import { useDispatch } from "react-redux";
+import updateData from "../../utils/data";
 
 
 export default function ForgotPassword(){
     const [value, setValue] = useState('');
     const [butDisbld, setButDisbld] = useState(!value.length);
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    useEffect(async () => {
+        const isAuth = await updateData(dispatch) //Обновляем хранилище данными с сервера
+        isAuth && navigate("/")     //Переброс пользователя к конструктору, если он авторизирован          
+    }, [])
 
     const mailRequest = () => {
         setButDisbld(true)
-        requestNumber([{"email": value}, "password-reset"])
+        requestPost([{"email": value}, "password-reset"])
         .then(res => {
             console.log(res)
-            navigate("/reset-password")
+            navigate("/reset-password", {state:"transferTrue"})
             }
         )
         .catch(res => console.log("Ошибка"))
@@ -25,16 +33,11 @@ export default function ForgotPassword(){
     console.log(butDisbld)
     return (<main className={s.form}>
         <h1 className="text text_type_main-medium text_color_active">Восстановление пароля</h1>
-        <Input
-            type={'text'}
-            placeholder={'Укажите e-mail'}
+        <EmailInput
             onChange={(e) => {setValue(e.target.value); 
                               setButDisbld(value.length<4)}}
             value={value}
-            name={'name'}
-            error={false}
-            errorText={'Ошибка'}
-            size={'default'}
+            name={'email'}
             extraClass="mt-6"
         />
         <Button htmlType="button" type="primary" disabled={butDisbld} size="small" extraClass="mt-6" onClick={() => mailRequest()}>

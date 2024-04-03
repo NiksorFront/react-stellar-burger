@@ -35,6 +35,7 @@ function values(ingredients){
 
 export default function BurgerIngredients(){
     const ingreds = useSelector((state) => state.burgerIngredients)
+
     const dispatch = useDispatch();
     {/*Ниже по соответствующим массивам распределяем игредиенты*/}
     //const [bun, main, sauce] = useMemo(() => values(ingredients), ingredients)

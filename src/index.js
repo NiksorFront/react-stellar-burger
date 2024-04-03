@@ -12,7 +12,11 @@ import Register from "./pages/register/register";
 import AppHeader from "./components/app-header/app-header";
 import ForgotPassword from "./pages/forgot-password/forgot-password";
 import ResetPassword from "./pages/reset-password/reset-password";
+import Profile from "./pages/profile/profile"
+import IngredientsId from "./pages/ingredients-id/ingredients-id";
 
+
+//window.history.pushState({usr: "popupClose"}, "");                               
 const router = createBrowserRouter([
   {
     path: "/",  // главная страница, конструктор бургеров.
@@ -35,12 +39,20 @@ const router = createBrowserRouter([
     element: <ResetPassword />
   },
   {
-    path: "/profile" //страница с настройками профиля пользователя
-
+    path: "/profile", //страница с настройками профиля пользователя
+    element: <Profile/>
   },
   {
-    path: "/ingredients/:id" // страница ингредиента
-
+    path: "/profile/orders",
+    element: <p>Будет релизовано в следующем спринте</p>
+  },
+  {
+    path: "/profile/orders/:id",
+    element: <p>Будет релизовано в следующем спринте</p>
+  },
+  {
+    path: "/ingredients/:id", // страница ингредиента
+    element: <>{window.history.state === null ? <App/> : <IngredientsId/>}</>
   },
   {
     path: "*",
@@ -53,6 +65,7 @@ ReactDOM.render(
     <Provider store={store}>
       <AppHeader/>
       <RouterProvider router={router}/>
+      {/* <RouterProvider router={createBrowserRouter([{path: "/ingredients/:id",element: <IngredientsId/>}])}/> */}
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
