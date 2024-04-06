@@ -1,11 +1,35 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { setCookie } from "../../utils/cookie";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { getCookie, setCookie } from "../../utils/cookie";
+import { requestAuth, requestPost } from "../../utils/API";
 
 
 const initialState = {isAuth: false,
                       user: {email: "",
                              name: ""  }
                      }
+
+export const updateDataProfile = createAsyncThunk(
+  'profile/updateDataProfile',
+  (dispatch) => {
+        const token = getCookie('accessToken'); //Получаем токен авторизации из куки
+
+        if (token){//Если токен есть, то запрашиваем данные, которые отображаем в <Input/>
+            requestAuth('auth/user', token)
+            // .then(res => {dataUser(res); return true})
+            // .catch(err => {console.log(err); return false})
+            .then(res => dispatch(dataUser(res)))
+            .catch(err => console.log(err))
+        }
+        else{//Если токена нет, то запрашиваем новый
+            requestPost([{token: getCookie('refreshToken')}, 'auth/token'])
+            .then(res => dispatch(newAuthorizationToken(res)))
+            .catch(err => console.log(err))
+        }
+  
+      //return success
+  }
+)
+
 
 const profileSlice = createSlice({
     name: "profile",
@@ -39,6 +63,10 @@ const profileSlice = createSlice({
             setCookie('accessToken', accessToken, {'max-age': 1000});
             setCookie('refreshToken', refreshToken)
         }
+    },
+    extraReducers: (build) => {
+        build.addCase(updateDataProfile.pending, ()  =>  console.log("Ждём данные профиля с сервера"))
+        build.addCase(updateDataProfile.fulfilled, () => console.log("Данные получены")) 
     }
 
 

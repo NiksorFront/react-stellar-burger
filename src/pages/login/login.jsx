@@ -3,21 +3,21 @@ import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { requestPost } from "../../utils/API";
-import { authorization } from "../../services/Slice/profileSlice";
-import { useDispatch} from "react-redux";
-import updateData from "../../utils/data";
+import { authorization, updateDataProfile } from "../../services/Slice/profileSlice";
+import { useDispatch, useSelector} from "react-redux";
 
 export default function Login(){
+    const isAuth = useSelector(state => state.profile.isAuth)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [butDisbld, setButDisbld] = useState(!(email || password));
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    useEffect(async () => {
-        const isAuth = await updateData(dispatch) //Обновляем хранилище данными с сервера
-        isAuth && navigate("/")     //Переброс пользователя к конструктору, если он авторизирован          
-    }, [])
+    useEffect(() => {
+        isAuth ? navigate("/")                          //Переброс пользователя к конструктору, если он авторизирован      
+               : dispatch(updateDataProfile(dispatch))  //Обновляем хранилище данными с сервера     
+    }, [isAuth])
 
     const requestAuth = () => {
         
@@ -30,7 +30,7 @@ export default function Login(){
         .finally(() => setButDisbld(false))
     }
 
-    return <main className={s.form}>
+    return (<main className={s.form}>
         <h1 className="text text_type_main-medium text_color_active">Вход</h1>
         <EmailInput
             onChange={e => {setEmail(e.target.value)
@@ -57,5 +57,5 @@ export default function Login(){
             Забыли пароль? <Link to={{pathname: "/forgot-password"}} className={s.active}>Восстановить</Link>
         </p>
 
-    </main>
+    </main>)
 }

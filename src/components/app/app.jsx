@@ -17,7 +17,6 @@ function App(){
   const popupModal = useSelector(state => state.modal.data.modal)
   
   const data = useSelector(state => state.profile)
-  console.log(data)
 
 
   return (

@@ -2,11 +2,10 @@ import { EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-
 import s from "./profile.module.css"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import updateData from "../../utils/data"
 import { useNavigate } from "react-router-dom"
 import { requestPost } from "../../utils/API"
 import { getCookie } from "../../utils/cookie"
-import { exit } from "../../services/Slice/profileSlice"
+import { exit, updateDataProfile } from "../../services/Slice/profileSlice"
 
 export default function Profile(){
     const data = useSelector(state => state.profile);  //Получаем данные с хранилища  
@@ -14,14 +13,18 @@ export default function Profile(){
     const [email, setEmail] = useState("Загрузка...");
     const [password, setPassword] = useState("Загрузка...");
 
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    useEffect(async () => {
-        const isAuth = await updateData(dispatch) //Обновляем хранилище данными с сервера
 
-        isAuth ? (setName(data.user.name) || setEmail(data.user.email) || setPassword(data.user.email)) 
-               : navigate("/login")     //Переброс пользователя к авторизации, если он не авторизирован          
-    }, [name])   
+    let dataUpd = false; //Мини каастыль, чтобы обновить данные и только потом проверять на авторизованость в следующем useEffect()
+    useEffect(() => dispatch(updateDataProfile(dispatch)),[])
+
+    useEffect(() => {
+        data.isAuth ? (setName(data.user.name) || setEmail(data.user.email) || setPassword(data.user.email))//Проверяем зареган ли пользователь и если что обновляем
+                    : dataUpd && navigate("/login")                                    //Переброс пользователя к авторизации, если он не авторизирован
+        dataUpd = true;
+    }, [data.isAuth])   
 
 
     const exitProfile = () => {
@@ -34,7 +37,7 @@ export default function Profile(){
         .catch(err => console.log(err))
     }
 
-    return <main className={s.form}>
+    return (<main className={s.form}>
         <menu className={s.menu}>
             <li>
                 <a className="text text_type_main-medium">Профиль</a>
@@ -78,5 +81,5 @@ export default function Profile(){
                 extraClass="mt-6"
             />
         </section>
-    </main>
+    </main>)
 }

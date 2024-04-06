@@ -49,3 +49,7 @@
     text-decoration: none;
     color: white;
 }
+
+.navigation__link:hover{
+    cursor: pointer;
+}

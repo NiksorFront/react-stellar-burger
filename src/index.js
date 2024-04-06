@@ -5,9 +5,9 @@ import App from "./components/app/app";
 import Login from "./pages/login/login";
 import reportWebVitals from "./reportWebVitals";
 
-import {Provider} from "react-redux"
+import {Provider, useSelector} from "react-redux"
 import {store} from "./services/index"
-import {createBrowserRouter, RouterProvider} from "react-router-dom"
+import {createBrowserRouter, RouterProvider, useLocation} from "react-router-dom"
 import Register from "./pages/register/register";
 import AppHeader from "./components/app-header/app-header";
 import ForgotPassword from "./pages/forgot-password/forgot-password";
@@ -16,31 +16,45 @@ import Profile from "./pages/profile/profile"
 import IngredientsId from "./pages/ingredients-id/ingredients-id";
 
 
-//window.history.pushState({usr: "popupClose"}, "");                               
+const AddHeader = children => {
+  return (<><AppHeader/>{children}</>)
+}
+
+function ModalPopup(){
+  const background = useSelector(state => state.modal.open);
+
+  return (<>
+    <AppHeader/>
+    {background ? <App/> 
+                : <IngredientsId/>}
+    </>)
+}
+
+                           
 const router = createBrowserRouter([
   {
-    path: "/",  // главная страница, конструктор бургеров.
-    element: <App/>
+    path: "",  // главная страница, конструктор бургеров.
+    element: AddHeader(<App/>)
   },
   {
     path: "/login", //страница авторизации
-    element: <Login />
+    element: AddHeader(<Login />)
   },
   {
     path: "/register", //страница регистрации
-    element: <Register/>
+    element: AddHeader(<Register/>)
   },
   {
     path: "/forgot-password", //страница восстановления пароля
-    element: <ForgotPassword/>
+    element: AddHeader(<ForgotPassword/>)
   },
   {
     path: "/reset-password", //страница сброса пароля
-    element: <ResetPassword />
+    element: AddHeader(<ResetPassword />)
   },
   {
     path: "/profile", //страница с настройками профиля пользователя
-    element: <Profile/>
+    element: AddHeader(<Profile/>)
   },
   {
     path: "/profile/orders",
@@ -52,7 +66,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/ingredients/:id", // страница ингредиента
-    element: <>{window.history.state === null ? <App/> : <IngredientsId/>}</>
+    element: <ModalPopup/>
+    //element: <>{window.history.state === null ? AddHeader(<App/>) : AddHeader(<IngredientsId/>)}</>
   },
   {
     path: "*",
@@ -60,10 +75,18 @@ const router = createBrowserRouter([
   }
 ])
 
+const popupRoute = createBrowserRouter([
+  {path: "", element: <></>},
+  {
+    path: "/ingredients/:id", // страница ингредиента
+    element: <IngredientsId/>
+  },
+])
+
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <AppHeader/>
+    <Provider store={store}>  
+    
       <RouterProvider router={router}/>
       {/* <RouterProvider router={createBrowserRouter([{path: "/ingredients/:id",element: <IngredientsId/>}])}/> */}
     </Provider>

@@ -3,11 +3,11 @@ import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { requestPost } from "../../utils/API";
-import { register } from "../../services/Slice/profileSlice";
-import { useDispatch} from "react-redux";
-import updateData from "../../utils/data";
+import { register, updateDataProfile } from "../../services/Slice/profileSlice";
+import { useDispatch, useSelector} from "react-redux";
 
 export default function Register(){
+    const isAuth = useSelector(state => state.profile.isAuth)
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -15,10 +15,10 @@ export default function Register(){
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    useEffect(async () => {
-        const isAuth = await updateData(dispatch) //Обновляем хранилище данными с сервера
-        isAuth && navigate("/")     //Переброс пользователя к конструктору, если он заргестрирован          
-    }, [])
+    useEffect(() => {
+        isAuth ? navigate("/")                          //Переброс пользователя к конструктору, если он авторизирован      
+               : dispatch(updateDataProfile(dispatch))  //Обновляем хранилище данными с сервера     
+    }, [isAuth])
 
     const requestRegister = () => {
         setButDisbld(true)

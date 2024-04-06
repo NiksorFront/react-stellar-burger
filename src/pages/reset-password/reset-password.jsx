@@ -3,23 +3,23 @@ import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { requestPost } from "../../utils/API";
-import { useDispatch } from "react-redux";
-import updateData from "../../utils/data";
+import { useDispatch, useSelector } from "react-redux";
+import { updateDataProfile } from "../../services/Slice/profileSlice";
 
 
 export default function ResetPassword(){
+    const isAuth = useSelector(state => state.profile.isAuth)
     const [mail, setMail] = useState('');
     const [code, setCode] = useState('');
     const [butDisbld, setButDisbld] = useState(!mail.length || !code.length);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    useEffect(async () => {
-        const isAuth = await updateData(dispatch); //Обновляем хранилище данными с сервера
-
+    useEffect(() => {
         const transfer = (window.history.state.usr === "transferTrue") ? false : true ;
-        (isAuth || transfer) && navigate("/")     //Переброс пользователя к конструктору, если он авторизирован          
-    }, [])
+        (isAuth || transfer) ? navigate("/")     //Переброс пользователя к конструктору, если он авторизирован 
+                             : dispatch(updateDataProfile(dispatch))  //Обновляем хранилище данными с сервера        
+    }, [isAuth])
 
     const resetRequest = () => {
         setButDisbld(true)

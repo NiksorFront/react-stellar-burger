@@ -3,20 +3,21 @@ import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { requestPost } from "../../utils/API";
-import { useDispatch } from "react-redux";
-import updateData from "../../utils/data";
+import { useDispatch, useSelector } from "react-redux";
+import { updateDataProfile } from "../../services/Slice/profileSlice";
 
 
 export default function ForgotPassword(){
+    const isAuth = useSelector(state => state.profile.isAuth)
     const [value, setValue] = useState('');
     const [butDisbld, setButDisbld] = useState(!value.length);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    useEffect(async () => {
-        const isAuth = await updateData(dispatch) //Обновляем хранилище данными с сервера
-        isAuth && navigate("/")     //Переброс пользователя к конструктору, если он авторизирован          
-    }, [])
+    useEffect(() => {
+        isAuth ? navigate("/")                          //Переброс пользователя к конструктору, если он авторизирован      
+               : dispatch(updateDataProfile(dispatch))  //Обновляем хранилище данными с сервера       
+    }, [isAuth])
 
     const mailRequest = () => {
         setButDisbld(true)

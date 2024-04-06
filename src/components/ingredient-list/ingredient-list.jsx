@@ -4,7 +4,7 @@ import s from "./ingredient-list.module.css"
 import { useDispatch} from "react-redux";
 import { popupContent, popupOpen } from "../../services/Slice/modalSlice";
 import { useDrag } from "react-dnd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 
 function Ingr({ingr}){ 
@@ -21,7 +21,7 @@ function Ingr({ingr}){
             modal: "IngredientDetails",
             content: ingr._id,
         }))
-        navigate(`/ingredients/${ingr._id}`, {replace: true, state: "popupOpen"})
+        navigate(`/ingredients/${ingr._id}`)
     }
 
     return(

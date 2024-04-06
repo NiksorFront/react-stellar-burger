@@ -11,7 +11,7 @@ export default function Modal({children, title}){
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
-    const closeModal = () => dispatch(popupOpen(false))
+    const closeModal = () => {dispatch(popupOpen(false)); navigate("/")}
 
     const ESC_KEY_CODE = 27;
     useEffect(() => {
@@ -25,10 +25,10 @@ export default function Modal({children, title}){
         
         return () => {document.removeEventListener('keydown', closeEsc); 
                       document.removeEventListener('click', closeBackgound)
-                      navigate("/", {replace:true})}
+                     }
     },[])
 
-    return createPortal((<ModalOverlay>  
+    return (createPortal((<ModalOverlay>  
         <div className={s.modal}>
             <div className={s.title}>
                 <h1 className="text text_type_main-large">{title}</h1>
@@ -36,5 +36,5 @@ export default function Modal({children, title}){
             </div>
             {children}
         </div>
-    </ModalOverlay>), document.getElementById("modals"))
+    </ModalOverlay>), document.getElementById("modals")))
 }

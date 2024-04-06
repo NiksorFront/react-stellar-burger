@@ -7,9 +7,9 @@ import { popupContent, popupOpen } from "../../services/Slice/modalSlice"
 import { useDrag, useDrop } from "react-dnd"
 import { countIngreds } from "../../services/Slice/burgerIngredientsSlice"
 import { useMemo, useRef } from "react"
-import { reqOrder } from "../../services/Slice/orderSlice"
-import updateData from "../../utils/data";
+import { reqOrder } from "../../services/Slice/orderSlice" 
 import { useNavigate } from "react-router-dom";
+import { updateDataProfile } from "../../services/Slice/profileSlice";
 
 
 function IngrInConstructor({ingred, index, len, e, deleteElement}){ 
@@ -120,10 +120,11 @@ export default function BurgerConstructor(){
                                              drop(itemId){isDrop(itemId)}
                                            })
 
-
+    
+    const isAuth = useSelector(state => state.profile.isAuth)
     {/*Функционал окна с оформленным заказом*/}
     async function popup(){
-        const isAuth = await updateData(dispatch); //Обновляем хранилище данными с сервера
+        dispatch(updateDataProfile(dispatch)) //Обновляем хранилище данными с сервера
         if(isAuth){
             dispatch(popupOpen(true))
             dispatch(popupContent({
