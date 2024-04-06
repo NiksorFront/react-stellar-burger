@@ -1,5 +1,8 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import s from "./ingredient-details.module.css"
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice"
 
 function Macronutrient({keyId, number, children}){
     return (<li key={keyId} style={{color: "rgba(133, 133, 173, 1)"}}>
@@ -9,7 +12,16 @@ function Macronutrient({keyId, number, children}){
 }
 
 export default function IngredientDetails(){
-    const {image_large: imageURL, name, calories, proteins, fat, carbohydrates} = useSelector(state => state.modal.data.content);
+    //const {image_large: imageURL, name, calories, proteins, fat, carbohydrates} = useSelector(state => state.modal.data.content);
+
+    const ingredients = useSelector((state) => state.burgerIngredients)
+    const dispatch = useDispatch();
+    useEffect(() => dispatch(requestСomponents()), []) //Запрашиваем и получаем список компонентов с сервера
+    const idIngrds= useLocation().pathname.slice(13); //Тут мы срезаем начииная с 13(т.е. убираем /ingredients/), чтобы получить id игридиента, 
+    
+    const {image_large: imageURL, name, calories, proteins, fat, carbohydrates} = ingredients.success 
+                                                                                  ? ingredients.data.find(ingred => ingred._id===idIngrds)
+                                                                                  : {}
 
     return(<div className={s.cntent}>
         <img src={imageURL} className={s.img}/> 

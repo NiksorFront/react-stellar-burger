@@ -5,9 +5,11 @@ import { createPortal } from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { useDispatch} from "react-redux";
 import { popupOpen } from "../../services/Slice/modalSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Modal({children, title}){
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const closeModal = () => dispatch(popupOpen(false))
 
@@ -22,8 +24,8 @@ export default function Modal({children, title}){
         document.addEventListener('click', closeBackgound)
         
         return () => {document.removeEventListener('keydown', closeEsc); 
-                      document.removeEventListener('click', closeBackgound)}
-                      
+                      document.removeEventListener('click', closeBackgound)
+                      navigate("/", {replace:true})}
     },[])
 
     return createPortal((<ModalOverlay>  

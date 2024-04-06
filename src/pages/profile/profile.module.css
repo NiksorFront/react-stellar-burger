@@ -1,0 +1,36 @@
+.form{
+    width: fit-content;
+    height: 100%;
+
+    margin: 10% auto 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    align-items: start;
+}
+
+.menu{
+    width: fit-content;
+    height: 312px;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    
+    justify-content: space-between;
+
+    list-style-type: none;
+}
+
+.editing{
+    width: fit-content;
+    height: fit-content;
+
+    margin: 0 160px 0 60px;
+}

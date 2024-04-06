@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { requestNumber } from "../../utils/API";
+import { requestPost } from "../../utils/API";
 
 const initialState = {number: ""}
 
 export const reqOrder = createAsyncThunk(
     "order/requestOrder",
     ([ingredients, endpoint]) => {
-        const result = requestNumber([{"ingredients": ingredients},endpoint])
+        const result = requestPost([{"ingredients": ingredients},endpoint])
                        .then(res => res.order.number)
 
         return result;
