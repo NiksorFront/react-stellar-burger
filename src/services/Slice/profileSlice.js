@@ -18,12 +18,12 @@ export const updateDataProfile = createAsyncThunk(
             // .then(res => {dataUser(res); return true})
             // .catch(err => {console.log(err); return false})
             .then(res => dispatch(dataUser(res)))
-            .catch(err => console.log(err))
+            .catch(err => dispatch(errorRequest(err)))
         }
         else{//Если токена нет, то запрашиваем новый
             requestPost([{token: getCookie('refreshToken')}, 'auth/token'])
             .then(res => dispatch(newAuthorizationToken(res)))
-            .catch(err => console.log(err))
+            .catch(err => dispatch(errorRequest(err)))
         }
   
       //return success
@@ -62,11 +62,18 @@ const profileSlice = createSlice({
                           name: ""  };
             setCookie('accessToken', accessToken, {'max-age': 1000});
             setCookie('refreshToken', refreshToken)
+        },
+        errorRequest: (state, action) =>{
+            state.isAuth = false;
+            state.user.email = "error";
+            state.user.name = "error";
+            console.log(action.payload)
         }
     },
     extraReducers: (build) => {
         build.addCase(updateDataProfile.pending, ()  =>  console.log("Ждём данные профиля с сервера"))
         build.addCase(updateDataProfile.fulfilled, () => console.log("Данные получены")) 
+        build.addCase(updateDataProfile.rejected, () => console.log("ошибка"))
     }
 
 
@@ -77,6 +84,7 @@ export const register = profileSlice.actions.register;
 export const dataUser = profileSlice.actions.dataUser;
 export const newAuthorizationToken = profileSlice.actions.newAuthorizationToken;
 export const exit = profileSlice.actions.exit;
+export const errorRequest = profileSlice.actions.errorRequest;
 
 const profile = profileSlice.reducer
 export default profile;

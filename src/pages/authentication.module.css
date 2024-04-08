@@ -12,6 +12,15 @@
     align-items: center;
 }
 
+.form_submit{
+    display: flex;
+    
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    align-items: center;
+}
+
 .active{
     color:rgba(76, 76, 255, 1);
 }

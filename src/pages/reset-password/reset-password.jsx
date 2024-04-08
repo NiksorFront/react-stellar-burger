@@ -21,7 +21,8 @@ export default function ResetPassword(){
                              : dispatch(updateDataProfile(dispatch))  //Обновляем хранилище данными с сервера        
     }, [isAuth])
 
-    const resetRequest = () => {
+    const resetRequest = (event) => {
+        event.preventDefault();
         setButDisbld(true)
         requestPost([{"password": mail,
                         "token": code}, "password-reset/reset"])  //Почему-то пишет, что такой URL не найден, хотя я его беру из задания
@@ -36,23 +37,25 @@ export default function ResetPassword(){
 
     return (<main className={s.form}>
         <h1 className="text text_type_main-medium text_color_active">Восстановление пароля</h1>
-        <PasswordInput name={'password'} 
-                       extraClass="mt-6" 
-                       value={mail} 
-                       onChange={e => {setMail(e.target.value); setButDisbld(mail.length<2 || code.length<2)}}/>
-        <Input
-            type={'text'}
-            placeholder={'Введите код из письма'}
-            onChange={e => {setCode(e.target.value); setButDisbld(mail.length<2 || code.length<2)}}
-            value={code}
-            name={'name'}
-            errorText={'Ошибка'}
-            size={'default'}
-            extraClass="mt-6"
-        />
-        <Button htmlType="button" type="primary" disabled={butDisbld} size="small" extraClass="mt-6" onClick={() => resetRequest()}>
-            <p className="text text_type_main-small">Сохранить</p> 
-        </Button>
+        <form className={s.form_submit} onSubmit={(e) => resetRequest(e)}>
+            <PasswordInput name={'password'} 
+                        extraClass="mt-6" 
+                        value={mail} 
+                        onChange={e => {setMail(e.target.value); setButDisbld(mail.length<2 || code.length<2)}}/>
+            <Input
+                type={'text'}
+                placeholder={'Введите код из письма'}
+                onChange={e => {setCode(e.target.value); setButDisbld(mail.length<2 || code.length<2)}}
+                value={code}
+                name={'name'}
+                errorText={'Ошибка'}
+                size={'default'}
+                extraClass="mt-6"
+            />
+            <Button htmlType="button" type="primary" disabled={butDisbld} size="small" extraClass="mt-6">
+                <p className="text text_type_main-small">Сохранить</p> 
+            </Button>
+        </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
             Вспомнили пароль? <Link to={{pathname: "/login"}} className={s.active}>Войти</Link>
         </p>

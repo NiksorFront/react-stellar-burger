@@ -17,14 +17,14 @@ export default function Profile(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    let dataUpd = false; //Мини каастыль, чтобы обновить данные и только потом проверять на авторизованость в следующем useEffect()
+    const [dataUpd, setDataUpd] = useState(false); //Мини каастыль, чтобы обновить данные и только потом проверять на авторизованость в следующем useEffect()
     useEffect(() => dispatch(updateDataProfile(dispatch)),[])
 
     useEffect(() => {
         data.isAuth ? (setName(data.user.name) || setEmail(data.user.email) || setPassword(data.user.email))//Проверяем зареган ли пользователь и если что обновляем
-                    : dataUpd && navigate("/login")                                    //Переброс пользователя к авторизации, если он не авторизирован
-        dataUpd = true;
-    }, [data.isAuth])   
+                    : dataUpd && navigate("/login");                                    //Переброс пользователя к авторизации, если он не авторизирован
+        setDataUpd(true);
+    }, [data])   
 
 
     const exitProfile = () => {
@@ -53,7 +53,7 @@ export default function Profile(){
                 изменить свои персональные данные
             </p>
         </menu>
-        <section className={s.editing}>
+        <form className={s.editing}>
             <EmailInput
                 onChange={e => setName(e.target.value)}
                 value={name}
@@ -80,6 +80,6 @@ export default function Profile(){
                 error={false}
                 extraClass="mt-6"
             />
-        </section>
+        </form>
     </main>)
 }

@@ -20,7 +20,6 @@ export default function Login(){
     }, [isAuth])
 
     const requestAuth = () => {
-        
         requestPost([{email: email, 
                       password: password},
                     "auth/login"])
@@ -32,23 +31,25 @@ export default function Login(){
 
     return (<main className={s.form}>
         <h1 className="text text_type_main-medium text_color_active">Вход</h1>
-        <EmailInput
-            onChange={e => {setEmail(e.target.value)
-                            setButDisbld(email.length<2 || password.length<2)}}
-            value={email}
-            name={'email'}
-            size={'default'}
-            extraClass="mt-6"
-        />
-        <PasswordInput name={'password'}
-                       onChange={e => {setPassword(e.target.value)
-                                       setButDisbld(email.length<2 || password.length<2)}}
-                       value={password}
-                       extraClass="mt-6"
-        />
-        <Button htmlType="button" type="primary" size="small" extraClass="mt-6" disabled={butDisbld} onClick={() => requestAuth()}> 
-            <p className="text text_type_main-small">Войти</p> 
-        </Button>
+        <form className={s.form_submit} onSubmit={() => requestAuth()}>
+            <EmailInput
+                onChange={e => {setEmail(e.target.value)
+                                setButDisbld(email.length<2 || password.length<2)}}
+                value={email}
+                name={'email'}
+                size={'default'}
+                extraClass="mt-6"
+            />
+            <PasswordInput name={'password'}
+                        onChange={e => {setPassword(e.target.value)
+                                        setButDisbld(email.length<2 || password.length<2)}}
+                        value={password}
+                        extraClass="mt-6"
+            />
+            <Button htmlType="button" type="primary" size="small" extraClass="mt-6" disabled={butDisbld} onClick={(e) => requestAuth(e)}> 
+                <p className="text text_type_main-small">Войти</p> 
+            </Button>
+        </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
             Вы - новый пользователь? <Link to={{pathname: "/register"}} className={s.active}>
                                      Зарегестрироваться</Link>
