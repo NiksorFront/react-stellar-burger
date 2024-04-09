@@ -15,13 +15,14 @@ export async function request(endpoint){
 }
 
 //Доступные endopoint'ы: 'auth/user'
-export async function requestAuth(endpoint, data){
+export async function requestAuth(endpoint, method, token, data){
     const res = await fetch(`${URL}/${endpoint}`,{
-                    method: 'GET',
+                    method: method,
                     headers: {
                         "Content-Type": "application/json",
-                        authorization: data
-                    }
+                        authorization: token
+                    },
+                    body: data ? (JSON.stringify(data)) : undefined
                 })
     
 

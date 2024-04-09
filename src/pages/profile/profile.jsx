@@ -3,7 +3,7 @@ import s from "./profile.module.css"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { requestPost } from "../../utils/API"
+import { requestAuth, requestPost } from "../../utils/API"
 import { getCookie } from "../../utils/cookie"
 import { exit, updateDataProfile } from "../../services/Slice/profileSlice"
 
@@ -37,6 +37,14 @@ export default function Profile(){
         .catch(err => console.log(err))
     }
 
+    const sendingNewData = () => {
+        const token = getCookie('accessToken')
+        
+        requestAuth('auth/user', "PATCH", token, {name: name, email: email})
+        .then(() => console.log("Данные обновлены"))
+        .catch(err => console(err))
+    }
+
     return (<main className={s.form}>
         <menu className={s.menu}>
             <li>
@@ -55,16 +63,16 @@ export default function Profile(){
         </menu>
         <form className={s.editing}>
             <EmailInput
-                onChange={e => setName(e.target.value)}
+                onChange={e => {setName(e.target.value); sendingNewData()}}
                 value={name}
-                name={'email'}
+                name={'name'}
                 placeholder="Имя"
                 isIcon={true}
                 error={false}
                 extraClass="mt-6"
             />
             <EmailInput
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => {setEmail(e.target.value); sendingNewData()}}
                 value={email}
                 name={'email'}
                 placeholder="Логин"

@@ -14,9 +14,7 @@ export const updateDataProfile = createAsyncThunk(
         const token = getCookie('accessToken'); //Получаем токен авторизации из куки
 
         if (token){//Если токен есть, то запрашиваем данные, которые отображаем в <Input/>
-            requestAuth('auth/user', token)
-            // .then(res => {dataUser(res); return true})
-            // .catch(err => {console.log(err); return false})
+            requestAuth('auth/user', "GET", token)
             .then(res => dispatch(dataUser(res)))
             .catch(err => dispatch(errorRequest(err)))
         }
