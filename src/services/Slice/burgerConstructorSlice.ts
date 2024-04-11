@@ -1,9 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit"
-import { ingredientType } from "../../utils/prop-types";
+import { IngredientType } from "../../utils/prop-types";
 
-const initialState: Array<ingredientType> = [];
+const initialState: Array<IngredientType> = [];
 
-type add = {payload: [ingredientType, number]} 
+type add = {payload: [IngredientType, number]} 
 type del = {payload: number}
 type replace = {payload: [number,number]}
 
@@ -14,8 +14,8 @@ export const burgerConstructorSlice = createSlice({
     reducers: {
       addIngred: (state, {payload: [ingredient, index]}: add) => {state.splice(index, 0, ingredient);},
       delIngred: (state, {payload: index}: del) => {state.splice(index, 1);}, 
-      repIngred: (state, {payload: [indexOld, indexNew]}: replace) => {const itemOld: ingredientType = state[indexOld];
-                                                                       const itemNew: ingredientType = state[indexNew];
+      repIngred: (state, {payload: [indexOld, indexNew]}: replace) => {const itemOld: IngredientType = state[indexOld];
+                                                                       const itemNew: IngredientType = state[indexNew];
                                                                        state.splice(indexNew, 1, itemOld);
                                                                        state.splice(indexOld, 1, itemNew);
                                                                       }

@@ -1,7 +1,7 @@
 import s from "./burger-constructor.module.css"
-import { ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components"
+import { ConstructorElement, Button, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components"
 import { v4 as uuidv4 } from "uuid";
-import { ingredientType, useDispatch, useSelector } from "../../utils/prop-types"
+import { IngredientType, useDispatch, useSelector } from "../../utils/prop-types"
 import { delIngred, addIngred, repIngred} from '../../services/Slice/burgerConstructorSlice'
 import { popupContent, popupOpen } from "../../services/Slice/modalSlice"
 import { useDrag, useDrop } from "react-dnd"
@@ -11,7 +11,7 @@ import { reqOrder } from "../../services/Slice/orderSlice"
 import { useNavigate } from "react-router-dom";
 import { updateDataProfile } from "../../services/Slice/profileSlice";
 
-type ingrInCnstrType = {ingred: ingredientType, index: number, len: number, e: number, deleteElement: any}
+type ingrInCnstrType = {ingred: IngredientType, index: number, len: number, e: number, deleteElement: any}
 
 function IngrInConstructor({ingred, index, len, e, deleteElement}:ingrInCnstrType){ 
     const dispatch = useDispatch()
@@ -37,11 +37,13 @@ function IngrInConstructor({ingred, index, len, e, deleteElement}:ingrInCnstrTyp
                                 //isHover - Если предмет в границах блока, то на фоне градиентик
                                 //isDraging - Делаем элемент полупрозрачным при перетаскивании
                             }                    
-                >
+                >   
+                    {e === 1   ? <p className={s.dummy}>000</p> :            //Каждому первому элементу указываем, что он "top"
+                     e === len ? <p className={s.dummy}>000</p> : <DragIcon type="primary" />}
                     <ConstructorElement
                         isLocked={e === 1   ? true :    
                                 e === len && true}
-                        type={e === 1   ? "top" :    //Каждому первому элементу указываем, что он "top"
+                        type={e === 1   ? "top" :            //Каждому первому элементу указываем, что он "top"
                             e === len ? "bottom": undefined} //Кажому последнему указываем, что он "bottom"     
                         text={e === 1   ? ingred.name+" (верх)":    
                             e === len ? ingred.name+" (низ)" : ingred.name}
@@ -64,7 +66,7 @@ export default function BurgerConstructor(){
 
     {/*Функционал удаления элемента*/}
     function deleteElement(id:string, index:number){
-        ingreds.forEach((ingrd: ingredientType, i:number) => {
+        ingreds.forEach((ingrd: IngredientType, i:number) => {
             if (ingrd._id === id) {
                 if (ingrd.type === "bun"){
                     dispatch(countIngreds([i, 0]))      //Cчётчик в ноль

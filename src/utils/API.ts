@@ -1,4 +1,4 @@
-import { ingredientType } from "./prop-types";
+import { IngredientType } from "./prop-types";
 
 const URL = 'https://norma.nomoreparties.space/api';
 const token = 'dfad8615-a69b-4969-abcf-da90e50e7e80';

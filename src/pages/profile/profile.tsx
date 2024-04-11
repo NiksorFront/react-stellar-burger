@@ -1,6 +1,6 @@
 import { EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components"
 import s from "./profile.module.css"
-import { authorizationType, profileType, useDispatch, useSelector } from "../../utils/prop-types"
+import { AuthorizationType, ProfileType, useDispatch, useSelector } from "../../utils/prop-types"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { requestAuth, requestPost } from "../../utils/API"
@@ -34,7 +34,7 @@ export default function Profile(){
     const exitProfile = () => {
         const token = getCookie('refreshToken'); //Получаем токен авторизации из куки
         requestPost([{token: token},"auth/logout"])
-        .then((res: authorizationType) => {
+        .then((res: AuthorizationType) => {
             dispatch(exit(res))
             navigate("/")
         })

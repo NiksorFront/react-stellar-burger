@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { requestPost } from "../../utils/API";
 import { authorization, updateDataProfile } from "../../services/Slice/profileSlice";
-import { authorizationType, useDispatch, useSelector} from "../../utils/prop-types";
+import { AuthorizationType, useDispatch, useSelector} from "../../utils/prop-types";
 
 export default function Login(){
     const isAuth = useSelector(state => state.profile.isAuth)
@@ -24,7 +24,7 @@ export default function Login(){
         requestPost([{email: email, 
                       password: password},
                     "auth/login"])
-        .then((res: authorizationType) => {
+        .then((res: AuthorizationType) => {
                 dispatch(authorization(res));                               
                 navigate("/")
             })

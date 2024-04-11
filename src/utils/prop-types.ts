@@ -7,20 +7,20 @@ import { createAsyncThunk as createAsyncThunkRedux} from "@reduxjs/toolkit";
 
 
 //Тпизация для компонентов
-export type child = {children: ReactNode};
+export type Child = {children: ReactNode};
 
 
 //Типизация useDispatch и useSelector
-export type appDispatch = typeof store.dispatch;
-export const useDispatch = () => useDispatchRedux<appDispatch>();
+export type AppDispatch = typeof store.dispatch;
+export const useDispatch = () => useDispatchRedux<AppDispatch>();
 
-export type storeType = ReturnType<typeof store.getState>
-export const useSelector: TypedUseSelectorHook<storeType> = useSelectorRedux;
+export type StoreType = ReturnType<typeof store.getState>
+export const useSelector: TypedUseSelectorHook<StoreType> = useSelectorRedux;
 
-export const createAsyncThunk = createAsyncThunkRedux.withTypes<{state: storeType; dispatch:appDispatch}>()
+export const createAsyncThunk = createAsyncThunkRedux.withTypes<{state: StoreType; dispatch:AppDispatch}>()
 
 //Типы в хранилище
-export type ingredientType = {
+export type IngredientType = {
     calories: number,
     carbohydrates: number,
     fat: number,
@@ -36,22 +36,22 @@ export type ingredientType = {
     _id: string
   }
 
-export type initState = {success: boolean, data: Array<ingredientType>}
+export type InitState = {success: boolean, data: Array<IngredientType>}
 
-export type modalType = {open: boolean, data: {title: string,
+export type ModalType = {open: boolean, data: {title: string,
                                                modal: string,
                                                content: string
                                               }}
 
-export type profileType = {isAuth: boolean, user: {email: string,
+export type ProfileType = {isAuth: boolean, user: {email: string,
                                                    name: string  
                                                   }}
 
-export type authorizationType = {success: boolean, 
+export type AuthorizationType = {success: boolean, 
                                  user: {email: string,
                                       name: string  
                                   },
                                  accessToken: string, 
                                  refreshToken: string}
 
-export type profilePayloadTypes = {payload: authorizationType};
+export type ProfilePayloadTypes = {payload: AuthorizationType};

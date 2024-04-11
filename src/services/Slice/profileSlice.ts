@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCookie, setCookie } from "../../utils/cookie";
 import { requestAuth, requestPost } from "../../utils/API";
-import { appDispatch, profilePayloadTypes, profileType, createAsyncThunk } from "../../utils/prop-types";
+import { AppDispatch, ProfilePayloadTypes, ProfileType, createAsyncThunk } from "../../utils/prop-types";
 
 
 
-const initialState: profileType = {isAuth: false,
+const initialState: ProfileType = {isAuth: false,
                                    user: {email: "",
                                           name: ""  }
                                   }
 
 export const updateDataProfile = createAsyncThunk(
   'profile/updateDataProfile',
-  (dispatch: appDispatch) => {
+  (dispatch: AppDispatch) => {
         const token = getCookie('accessToken'); //Получаем токен авторизации из куки
 
         if (token){//Если токен есть, то запрашиваем данные, которые отображаем в <Input/>
@@ -32,13 +32,13 @@ const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers:{
-        register: (state, {payload: {success, user, accessToken, refreshToken}}: profilePayloadTypes) => {
+        register: (state, {payload: {success, user, accessToken, refreshToken}}: ProfilePayloadTypes) => {
             state.isAuth = success;
             state.user = user;
             setCookie('accessToken', accessToken, {'max-age': 1000});
             setCookie('refreshToken', refreshToken)
         },
-        authorization: (state, {payload: {success, user, accessToken, refreshToken}}: profilePayloadTypes) => {
+        authorization: (state, {payload: {success, user, accessToken, refreshToken}}: ProfilePayloadTypes) => {
             state.isAuth = success;
             state.user = user;
             setCookie('accessToken', accessToken, {'max-age': 1000});
@@ -48,12 +48,12 @@ const profileSlice = createSlice({
             state.isAuth = success;
             state.user = user;
         },
-        newAuthorizationToken: (state, {payload: {success, accessToken, refreshToken}}: profilePayloadTypes) => {
+        newAuthorizationToken: (state, {payload: {success, accessToken, refreshToken}}: ProfilePayloadTypes) => {
             state.isAuth = success;
             setCookie('accessToken', accessToken, {'max-age': 1000});
             setCookie('refreshToken', refreshToken)
         },
-        exit: (state, {payload: {success, accessToken, refreshToken}}: profilePayloadTypes) => {
+        exit: (state, {payload: {success, accessToken, refreshToken}}: ProfilePayloadTypes) => {
             state.isAuth = !success;
             state.user = {email: "",
                           name: ""  };

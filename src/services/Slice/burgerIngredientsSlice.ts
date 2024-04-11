@@ -1,14 +1,14 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {createAsyncThunk} from "../../utils/prop-types"
 import {request} from "../../utils/API";
-import { initState } from "../../utils/prop-types";
+import { InitState } from "../../utils/prop-types";
 
 
-const initialState: initState = {success: false, data: []}
+const initialState: InitState = {success: false, data: []}
 
 export const requestСomponents = createAsyncThunk(
   'BurgerIngredients/requestData',
-  () => {const result: Promise<initState> = request('ingredients')
+  () => {const result: Promise<InitState> = request('ingredients')
                                             .then(res => res)
 
          return result;
