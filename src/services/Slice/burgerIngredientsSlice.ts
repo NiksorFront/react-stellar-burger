@@ -1,24 +1,28 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk} from "../../utils/prop-types"
 import {request} from "../../utils/API";
+import { InitState } from "../../utils/prop-types";
 
-const initialState = {success: false, data: []}
+
+const initialState: InitState = {success: false, data: []}
 
 export const requestСomponents = createAsyncThunk(
   'BurgerIngredients/requestData',
-  () => {const result = request('ingredients')
-                        .then(res => res)
+  () => {const result: Promise<InitState> = request('ingredients')
+                                            .then(res => res)
 
          return result;
         }
 )
 
+type count = {payload: [number, number]}
 
 //список всех полученных ингредиентов
 export const BurgerIngredientsSlice = createSlice({
     name: 'BurgerIngredients',
     initialState,
     reducers: {
-      countIngreds: (state, {payload: [index, cnt]}) => {state.data[index].__v = cnt},
+      countIngreds: (state, {payload: [index, cnt]}: count) => {state.data[index].__v = cnt},
     },
     extraReducers: (builder) => {
       builder.addCase(requestСomponents.pending, () => console.log("Ждём компоненты с сервера"));//загрузка

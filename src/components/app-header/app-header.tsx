@@ -3,14 +3,8 @@ import s from './app-header.module.css';
 import { useNavigate } from "react-router-dom";
 
 export default function AppHeader() {
-
-    const activConstr = window.location.pathname === "/" 
-                    ? ['primary', 'text_color_active' ] 
-                    : ['secondary', 'text_color_inactive']
-
-    const activProf = window.location.pathname === "/profile" 
-                    ? ['primary', 'text_color_active' ] 
-                    : ['secondary', 'text_color_inactive']
+    const activConstr: boolean = window.location.pathname === "/";
+    const activProf: boolean = window.location.pathname === "/profile";
 
     const navigate = useNavigate();
     return (
@@ -18,8 +12,11 @@ export default function AppHeader() {
             <nav className={s.content}>
                 <div className={s.navigation} >
                     <div className={s.navigation__link} onClick={() => navigate("/", {state: null})}>
-                        <BurgerIcon type={activConstr[0]}/>
-                        <p className={`text text_type_main-default ${activConstr[1]}`}>Конструктор</p>
+                        <BurgerIcon type={activConstr
+                                          ?'primary'
+                                          :'secondary'}/>
+                        <p className={`text text_type_main-default 
+                                      ${activConstr && 'text_color_active'}`}>Конструктор</p>
                     </div>
                     <a className={s.navigation__link}>
                         <ListIcon type="secondary"/>
@@ -28,8 +25,11 @@ export default function AppHeader() {
                 </div> 
                 <Logo/>
                 <div className={s.navigation__link} onClick={() => navigate("/profile")}>
-                    <ProfileIcon type={activProf[0]}/>
-                    <p className={`text text_type_main-default ${activProf[1]}`}>Личный кабинет</p>
+                    <ProfileIcon type={activProf
+                                       ?'primary'
+                                       :'secondary'}/>
+                    <p className={`text text_type_main-default 
+                                  ${activProf && 'text_color_active'}`}>Личный кабинет</p>
                 </div>
             </nav>
         </header>

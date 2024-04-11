@@ -3,8 +3,9 @@ import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { requestPost } from "../../utils/API";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../utils/prop-types";
 import { updateDataProfile } from "../../services/Slice/profileSlice";
+
 
 
 export default function ForgotPassword(){
@@ -19,20 +20,15 @@ export default function ForgotPassword(){
                : dispatch(updateDataProfile(dispatch))  //Обновляем хранилище данными с сервера       
     }, [isAuth])
 
-    const mailRequest = (event) => {
+    const mailRequest = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setButDisbld(true)
         requestPost([{"email": value}, "password-reset"])
-        .then(res => {
-            console.log(res)
-            navigate("/reset-password", {state:"transferTrue"})
-            }
-        )
-        .catch(res => console.log("Ошибка"))
+        .then(() => navigate("/reset-password", {state:"transferTrue"}))
+        .catch(() => console.log("Ошибка"))
         .finally(() => setButDisbld(false))
     }
-    
-    console.log(butDisbld)
+
     return (<main className={s.form}>
         <h1 className="text text_type_main-medium text_color_active">Восстановление пароля</h1>
         <form className={s.form_submit} onSubmit={(e) => mailRequest(e)}>
@@ -43,7 +39,7 @@ export default function ForgotPassword(){
                 name={'email'}
                 extraClass="mt-6"
             />
-            <Button htmlType="button" type="primary" disabled={butDisbld} size="small" extraClass="mt-6">
+            <Button htmlType="submit" type="primary" disabled={butDisbld} size="small" extraClass="mt-6">
                 <p className="text text_type_main-small">Восстановить</p> 
             </Button>
         </form>
