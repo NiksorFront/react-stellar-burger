@@ -1,16 +1,18 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 import { getCookie, setCookie } from "../../utils/cookie";
 import { requestAuth, requestPost } from "../../utils/API";
+import { appDispatch, profilePayloadTypes, profileType, createAsyncThunk } from "../../utils/prop-types";
 
 
-const initialState = {isAuth: false,
-                      user: {email: "",
-                             name: ""  }
-                     }
+
+const initialState: profileType = {isAuth: false,
+                                   user: {email: "",
+                                          name: ""  }
+                                  }
 
 export const updateDataProfile = createAsyncThunk(
   'profile/updateDataProfile',
-  (dispatch) => {
+  (dispatch: appDispatch) => {
         const token = getCookie('accessToken'); //Получаем токен авторизации из куки
 
         if (token){//Если токен есть, то запрашиваем данные, которые отображаем в <Input/>
@@ -23,23 +25,20 @@ export const updateDataProfile = createAsyncThunk(
             .then(res => dispatch(newAuthorizationToken(res)))
             .catch(err => dispatch(errorRequest(err)))
         }
-  
-      //return success
   }
 )
-
 
 const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers:{
-        register: (state, {payload: {success, user, accessToken, refreshToken}}) => {
+        register: (state, {payload: {success, user, accessToken, refreshToken}}: profilePayloadTypes) => {
             state.isAuth = success;
             state.user = user;
             setCookie('accessToken', accessToken, {'max-age': 1000});
             setCookie('refreshToken', refreshToken)
         },
-        authorization: (state, {payload: {success, user, accessToken, refreshToken}}) => {
+        authorization: (state, {payload: {success, user, accessToken, refreshToken}}: profilePayloadTypes) => {
             state.isAuth = success;
             state.user = user;
             setCookie('accessToken', accessToken, {'max-age': 1000});
@@ -49,12 +48,12 @@ const profileSlice = createSlice({
             state.isAuth = success;
             state.user = user;
         },
-        newAuthorizationToken: (state, {payload: {success, accessToken, refreshToken}}) => {
+        newAuthorizationToken: (state, {payload: {success, accessToken, refreshToken}}: profilePayloadTypes) => {
             state.isAuth = success;
             setCookie('accessToken', accessToken, {'max-age': 1000});
             setCookie('refreshToken', refreshToken)
         },
-        exit: (state, {payload: {success, accessToken, refreshToken}}) => {
+        exit: (state, {payload: {success, accessToken, refreshToken}}: profilePayloadTypes) => {
             state.isAuth = !success;
             state.user = {email: "",
                           name: ""  };
@@ -63,8 +62,8 @@ const profileSlice = createSlice({
         },
         errorRequest: (state, action) =>{
             state.isAuth = false;
-            state.user.email = "error";
-            state.user.name = "error";
+            state.user.email = "Ошибка загрузки";
+            state.user.name = "Ошибка загрузки";
             console.log(action.payload)
         }
     },

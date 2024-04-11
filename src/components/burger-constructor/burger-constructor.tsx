@@ -1,7 +1,7 @@
 import s from "./burger-constructor.module.css"
 import { ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components"
-import { v4 as uuidv4 } from 'uuid';
-import { useDispatch, useSelector } from "react-redux"
+import { v4 as uuidv4 } from "uuid";
+import { ingredientType, useDispatch, useSelector } from "../../utils/prop-types"
 import { delIngred, addIngred, repIngred} from '../../services/Slice/burgerConstructorSlice'
 import { popupContent, popupOpen } from "../../services/Slice/modalSlice"
 import { useDrag, useDrop } from "react-dnd"
@@ -11,8 +11,9 @@ import { reqOrder } from "../../services/Slice/orderSlice"
 import { useNavigate } from "react-router-dom";
 import { updateDataProfile } from "../../services/Slice/profileSlice";
 
+type ingrInCnstrType = {ingred: ingredientType, index: number, len: number, e: number, deleteElement: any}
 
-function IngrInConstructor({ingred, index, len, e, deleteElement}){ 
+function IngrInConstructor({ingred, index, len, e, deleteElement}:ingrInCnstrType){ 
     const dispatch = useDispatch()
 
     const [{isDraging},dragIng] = useDrag({type:"ingredients",
@@ -23,53 +24,49 @@ function IngrInConstructor({ingred, index, len, e, deleteElement}){
     {/*Функционал перетаскивания ингредиентов внутри BurgerConstructor*/}
     const [{isHover},dropIng] = useDrop({accept: "ingredients",
                                          collect: monitor => ({isHover: monitor.isOver()}),
-                                         drop(item){
+                                         drop(item: {index: number}){
                                             dispatch(repIngred([item.index, index]))
                                          },
                                        })
     
-    const refBun = useRef() //Его перетаскивать нельзя
-
-    const ref = useRef(null); 
-    const dragDropRef = dragIng(dropIng(ref))
-    
-    return(<div ref={(ingred.type === "bun") ? refBun : dragDropRef}
-                className={`${s.ingredient}
-                            ${isHover && s.ingredient_gradient}
-                            ${isDraging && s.ingredient_opacity}` 
-                            //isHover - Если предмет в границах блока, то на фоне градиентик
-                            //isDraging - Делаем элемент полупрозрачным при перетаскивании
-                          }                    
-            >
-                <ConstructorElement
-                    isLocked={e === 1   ? true :    
-                              e === len && true}
-                    type={e === 1   ? "top" :    //Каждому первому элементу указываем, что он "top"
-                          e === len && "bottom"} //Кажому последнему указываем, что он "bottom"     
-                    text={e === 1   ? ingred.name+" (верх)":    
-                          e === len ? ingred.name+" (низ)" : ingred.name}
-                    price={ingred.price}
-                    thumbnail={ingred.image_mobile}
-                    handleClose={()=>deleteElement(ingred._id, index)}
-                />
+    return(<div ref={(ingred.type === "bun") ? undefined : dragIng}>
+                <div ref={(ingred.type === "bun") ? undefined : dropIng}
+                    className={`${s.ingredient}
+                                ${isHover && s.ingredient_gradient}
+                                ${isDraging && s.ingredient_opacity}` 
+                                //isHover - Если предмет в границах блока, то на фоне градиентик
+                                //isDraging - Делаем элемент полупрозрачным при перетаскивании
+                            }                    
+                >
+                    <ConstructorElement
+                        isLocked={e === 1   ? true :    
+                                e === len && true}
+                        type={e === 1   ? "top" :    //Каждому первому элементу указываем, что он "top"
+                            e === len ? "bottom": undefined} //Кажому последнему указываем, что он "bottom"     
+                        text={e === 1   ? ingred.name+" (верх)":    
+                            e === len ? ingred.name+" (низ)" : ingred.name}
+                        price={ingred.price}
+                        thumbnail={ingred.image_mobile}
+                        handleClose={()=>deleteElement(ingred._id, index)}
+                    />
+                </div>
            </div>
     )
 }
 
 export default function BurgerConstructor(){
 
-    const ingreds = useSelector((state) => state.burgerIngredients.data) //Список с ваще всеми ингредиентами 
+    const ingreds = useSelector(state => state.burgerIngredients.data) //Список с ваще всеми ингредиентами 
     const ingredients = useSelector(state => state.burgerConstructor)    //Список с теми ингредентами, что в BurgerConstructor
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
 
     {/*Функционал удаления элемента*/}
-    function deleteElement(id, index){
-        ingreds.forEach((ingrd, i) => {
+    function deleteElement(id:string, index:number){
+        ingreds.forEach((ingrd: ingredientType, i:number) => {
             if (ingrd._id === id) {
                 if (ingrd.type === "bun"){
-                    console.log(1)
                     dispatch(countIngreds([i, 0]))      //Cчётчик в ноль
                     dispatch(delIngred(ingredients.length-1))
                     dispatch(delIngred(0))          
@@ -84,15 +81,16 @@ export default function BurgerConstructor(){
     }
 
 
-    {/*Функционал бросания элмента */}
-    function isDrop(itemId){
+    {/*Функционал бросания элмента*/}
+
+    function isDrop(itemId: string){
         ingreds.forEach((ingredient, index) => {
             const ingrd = {
                 ...ingredient,
                 uniqueId: uuidv4(), //Не ingred._id, потому что одинаковых эллементов может бвть много, а key должен быть всегда разный
             }
                         
-            if (ingrd._id === itemId.id) {
+            if (ingrd._id === itemId) {
                 if(ingrd.type === 'bun'){      //Проверяем булочка ли сейчас
                     ingreds.forEach((item, i) => { //Удаляем предыдущую, если она есть
                         if (item.__v === 1 && item.type === "bun") {       
@@ -117,7 +115,9 @@ export default function BurgerConstructor(){
 
     const [{isHover}, dropTarget] = useDrop({accept:"component", 
                                              collect: monitor => ({isHover: monitor.isOver()}),
-                                             drop(itemId){isDrop(itemId)}
+                                             drop(itemId: {id: string}){
+                                                isDrop(itemId.id)
+                                             }
                                            })
 
     
@@ -137,13 +137,13 @@ export default function BurgerConstructor(){
         }
     }
     
-    let e = 0;                      //Счётчик элементов
-    const len = ingredients.length; //Количество всех элементов
-    let totalPrice = useMemo(() => {return ingredients.reduce((Summa, ingrd) => Summa + ingrd.price, 0)}, [len]); //Общая цена
+    let e: number = 0;                      //Счётчик элементов
+    const len: number = ingredients.length; //Количество всех элементов
+    let totalPrice: number = useMemo(() => {return ingredients.reduce((Summa, ingrd) => Summa + ingrd.price, 0)}, [len]); //Общая цена
     return( <section className={`${s.brg_construct}
                                 ${isHover && s.brg_construct_opacity}`}//Если предмет в границах блока, то прозрачности рамки нет,
                      ref={dropTarget}>
-                <div className={s.constructor}>
+                <div className={`${s.constructor}`}>
                     {ingredients.map((ingred, index) => {
                         e += 1;
                         return <IngrInConstructor key={ingred.uniqueId} ingred={ingred} index={index} e={e} len={len} deleteElement={deleteElement}/>

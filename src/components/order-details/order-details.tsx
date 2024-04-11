@@ -1,9 +1,9 @@
 import s from "./order-details.module.css"
 import decor from "../../images/decorated.png";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../utils/prop-types";
 
 export default function OrderDetails(){
-    const number = useSelector(state => state.order.number)
+    const number: string = useSelector(state => state.order.number)
 
     return(<div className={s.cntent}>
         <h3 className="text text_type_digits-large mt-4">{number}</h3>

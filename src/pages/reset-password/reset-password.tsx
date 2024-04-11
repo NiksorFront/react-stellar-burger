@@ -3,7 +3,7 @@ import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { requestPost } from "../../utils/API";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../utils/prop-types";
 import { updateDataProfile } from "../../services/Slice/profileSlice";
 
 
@@ -16,22 +16,18 @@ export default function ResetPassword(){
     const navigate = useNavigate();
     const dispatch = useDispatch();
     useEffect(() => {
-        const transfer = (window.history.state.usr === "transferTrue") ? false : true ;
+        const transfer: boolean = (window.history.state.usr === "transferTrue") ? false : true ;
         (isAuth || transfer) ? navigate("/")     //Переброс пользователя к конструктору, если он авторизирован 
                              : dispatch(updateDataProfile(dispatch))  //Обновляем хранилище данными с сервера        
     }, [isAuth])
 
-    const resetRequest = (event) => {
+    const resetRequest = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setButDisbld(true)
         requestPost([{"password": mail,
-                        "token": code}, "password-reset/reset"])  //Почему-то пишет, что такой URL не найден, хотя я его беру из задания
-        .then(res => {
-            console.log(res)
-            //Тут чёто будет, когда "password-reset/reset" заработает
-            }
-        )
-        .catch(res => console.log("Ошибка"))
+                        "token": code}, "password-reset/reset"])
+        .then(() => navigate("/"))
+        .catch(() => console.log("Ошибка"))
         .finally(() => setButDisbld(false))
     }
 
@@ -39,9 +35,9 @@ export default function ResetPassword(){
         <h1 className="text text_type_main-medium text_color_active">Восстановление пароля</h1>
         <form className={s.form_submit} onSubmit={(e) => resetRequest(e)}>
             <PasswordInput name={'password'} 
-                        extraClass="mt-6" 
-                        value={mail} 
-                        onChange={e => {setMail(e.target.value); setButDisbld(mail.length<2 || code.length<2)}}/>
+                           extraClass="mt-6" 
+                           value={mail} 
+                           onChange={e => {setMail(e.target.value); setButDisbld(mail.length<2 || code.length<2)}}/>
             <Input
                 type={'text'}
                 placeholder={'Введите код из письма'}
@@ -52,7 +48,7 @@ export default function ResetPassword(){
                 size={'default'}
                 extraClass="mt-6"
             />
-            <Button htmlType="button" type="primary" disabled={butDisbld} size="small" extraClass="mt-6">
+            <Button htmlType="submit" type="primary" disabled={butDisbld} size="small" extraClass="mt-6">
                 <p className="text text_type_main-small">Сохранить</p> 
             </Button>
         </form>

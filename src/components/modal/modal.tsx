@@ -3,24 +3,23 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useEffect} from "react"
 import { createPortal } from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import { useDispatch} from "react-redux";
+import { child, useDispatch} from "../../utils/prop-types";
 import { popupOpen } from "../../services/Slice/modalSlice";
 import { useNavigate } from "react-router-dom";
 
-export default function Modal({children, title}){
+export default function Modal({children, title}: child & {title:string}){
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const closeModal = () => {dispatch(popupOpen(false)); navigate("/")}
 
-    const ESC_KEY_CODE = 27;
     useEffect(() => {
         //Закрытие по нажатию на esc
-        const closeEsc = (e) => {e.keyCode === ESC_KEY_CODE && closeModal()}
+        const closeEsc = (e: KeyboardEvent) => {e.key === "Escape" && closeModal()}
         document.addEventListener('keydown', closeEsc)
         
         //Устанавливаем закрытие по нажатию на тёмный фон.
-        const closeBackgound = (e) => {e.target.tagName === 'SECTION' && closeModal()}
+        const closeBackgound = (e: MouseEvent) => {(e.target as HTMLElement).tagName === 'SECTION' && closeModal()}
         document.addEventListener('click', closeBackgound)
         
         return () => {document.removeEventListener('keydown', closeEsc); 
@@ -36,5 +35,5 @@ export default function Modal({children, title}){
             </div>
             {children}
         </div>
-    </ModalOverlay>), document.getElementById("modals")))
+    </ModalOverlay>), document.getElementById("modals")!))
 }

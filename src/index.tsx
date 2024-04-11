@@ -1,11 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/app/app";
 import Login from "./pages/login/login";
 import reportWebVitals from "./reportWebVitals";
 
-import {Provider, useSelector} from "react-redux"
+import {Provider} from "react-redux"
+import { useSelector } from "./utils/prop-types";
 import {store} from "./services/index"
 import {createBrowserRouter, RouterProvider, useLocation} from "react-router-dom"
 import Register from "./pages/register/register";
@@ -16,7 +17,7 @@ import Profile from "./pages/profile/profile"
 import IngredientsId from "./pages/ingredients-id/ingredients-id";
 
 
-const AddHeader = children => {
+const AddHeader = (children: ReactNode) => {
   return (<><AppHeader/>{children}</>)
 }
 
@@ -75,20 +76,11 @@ const router = createBrowserRouter([
   }
 ])
 
-const popupRoute = createBrowserRouter([
-  {path: "", element: <></>},
-  {
-    path: "/ingredients/:id", // страница ингредиента
-    element: <IngredientsId/>
-  },
-])
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>  
-    
       <RouterProvider router={router}/>
-      {/* <RouterProvider router={createBrowserRouter([{path: "/ingredients/:id",element: <IngredientsId/>}])}/> */}
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { requestPost } from "../../utils/API";
 import { register, updateDataProfile } from "../../services/Slice/profileSlice";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector} from "../../utils/prop-types";
 
 export default function Register(){
     const isAuth = useSelector(state => state.profile.isAuth)
@@ -20,23 +20,21 @@ export default function Register(){
                : dispatch(updateDataProfile(dispatch))  //Обновляем хранилище данными с сервера     
     }, [isAuth])
 
-    const requestRegister = () => {
-        setButDisbld(true);
+    const requestRegister = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         requestPost([{email: email,
                       password: password,
-                      name: name   },
+                      name: name },
                       "auth/register"
                     ])
-        .then(res => {
-            register(res);
-        })
-        .catch(err => console.log("ошибка:", err))
+        .then(res => register(res))
+        .catch(() => console.log("ошибка регистрации"))
         .finally(() => setButDisbld(false))
     }
 
     return (<main className={s.form}>
         <h1 className="text text_type_main-medium text_color_active">Регистрация</h1>
-        <form className={s.form_submit} onSubmit={() => requestRegister()}>
+        <form className={s.form_submit} onSubmit={(e) => requestRegister(e)}>
             <Input
                 type={'text'}
                 placeholder={'Имя'}
@@ -55,14 +53,15 @@ export default function Register(){
                 size={'default'}
                 extraClass="mt-6"
             />
-            <PasswordInput name={'password'}
-                        onChange={e => {setPassword(e.target.value)
-                                        setButDisbld(name.length<2 || email.length<2 || password.length<2)}}
-                        value={password}
-                        extraClass="mt-6"
+            <PasswordInput 
+                name={'password'}
+                onChange={e => {setPassword(e.target.value)
+                                setButDisbld(name.length<2 || email.length<2 || password.length<2)}}
+                value={password}
+                extraClass="mt-6"
             />
-            <Button htmlType="button" type="primary" disabled={butDisbld} size="small" extraClass="mt-6">
-                <p className="text text_type_main-small">Войти</p> 
+            <Button htmlType="submit" type="primary" disabled={butDisbld} size="small" extraClass="mt-6">
+                <p className="text text_type_main-small">Зарегестрироваться</p> 
             </Button>
         </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
