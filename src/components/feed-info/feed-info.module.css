@@ -1,0 +1,69 @@
+.feed_info{ 
+    width: 575px;
+    max-height: calc(100vh - 84px);
+    margin: 80px 20px 0;
+    padding: 0;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.done{
+    width: 50%;
+
+    margin: 0;
+    padding: 0;
+}
+
+.done_list{
+    max-width: 260px;
+    max-height: 250px;
+    margin: 24px 0 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    list-style: none;
+    overflow: hidden;
+
+    color: rgba(0, 204, 204, 1);
+
+}
+
+.at_work{
+    width: 50%;
+
+    margin: 0;
+    padding: 0;
+}
+
+.at_work_list{
+    max-width: 260px;
+    max-height: 250px;
+    margin: 24px 0 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    list-style: none;
+    overflow: hidden;
+}
+
+.completedAll{
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+}
+.completedToday{
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+}
+

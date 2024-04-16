@@ -7,7 +7,7 @@ import { popupContent, popupOpen } from "../../services/Slice/modalSlice"
 import { useDrag, useDrop } from "react-dnd"
 import { countIngreds } from "../../services/Slice/burgerIngredientsSlice"
 import { useMemo, useRef } from "react"
-import { reqOrder } from "../../services/Slice/orderSlice" 
+import { reqOrder } from "../../services/Slice/orderSlice/orderSlice" 
 import { useNavigate } from "react-router-dom";
 import { updateDataProfile } from "../../services/Slice/profileSlice";
 

@@ -7,11 +7,11 @@ import { Child, useDispatch} from "../../utils/prop-types";
 import { popupOpen } from "../../services/Slice/modalSlice";
 import { useNavigate } from "react-router-dom";
 
-export default function Modal({children, title}: Child & {title:string}){
+export default function Modal({children, title, pathURL}: Child & {title:string, pathURL: string}){
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const closeModal = () => {dispatch(popupOpen(false)); navigate("/")}
+    const closeModal = () => {dispatch(popupOpen(false)); navigate(pathURL)}
 
     useEffect(() => {
         //Закрытие по нажатию на esc

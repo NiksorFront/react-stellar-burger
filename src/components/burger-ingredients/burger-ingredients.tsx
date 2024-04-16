@@ -67,7 +67,7 @@ export default function BurgerIngredients(){
 
 
     return(<section className={s.brg_ingredients}>
-        <h2 className='text text_type_main-large mt-15'>Соберите бургер</h2>
+        <h2 className='text text_type_main-large mt-10'>Соберите бургер</h2>
         <NavIngred current={scrollPos} setCurrent={setScrollPos}/>
         <div className={s.Ingredients} onScroll={scroll}>
             <IngredientList ingredients={bun}  >Булки</IngredientList>

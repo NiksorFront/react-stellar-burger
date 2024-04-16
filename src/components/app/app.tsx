@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+ import { useEffect, useState } from "react";
 import styles from "./app.module.css";
-import AppHeader from "../app-header/app-header"
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
@@ -17,18 +16,18 @@ function App(){
   const popupModal = useSelector(state => state.modal.data.modal)
 
   return (
-    <div className={styles.app}>
       <main className={styles.main}>
         <DndProvider backend={HTML5Backend}>
           <BurgerIngredients />
           <BurgerConstructor />
         </DndProvider>
+        <div className={styles.app}>
+          {popupTrueFalse && <Modal title={popupTitle} pathURL={"/"}>
+            {popupModal==="OrderDetails"      && <OrderDetails />}
+            {popupModal==="IngredientDetails" && <IngredientDetails />}
+          </Modal>}
+        </div>
       </main>
-      {popupTrueFalse && <Modal title={popupTitle}>
-        {popupModal==="OrderDetails"      && <OrderDetails />}
-        {popupModal==="IngredientDetails" && <IngredientDetails />}
-      </Modal>}
-    </div>
   );
 }
 

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {createAsyncThunk} from "../../utils/prop-types"
+import {createAsyncThunk} from "../../../utils/prop-types"
 
-import { requestPost } from "../../utils/API";
+import { requestPost } from "../../../utils/API";
 
 const initialState: {number:string} = {number: ""}
 
