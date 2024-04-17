@@ -1,0 +1,23 @@
+.ingredients{
+    width: fit-content;
+    min-height: calc(100vh - 275px);
+    
+    margin: 0 0 0 60px;
+    padding: 0;
+
+    overflow-y: scroll;
+    scrollbar-color: rgba(133, 133, 173, 1) rgba(47, 47, 55, 1);
+    scrollbar-width: thin;
+}
+
+.ingredients::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ingredients::-webkit-scrollbar-track {
+    background-color: rgba(47, 47, 55, 1);
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+    background-color: rgba(133, 133, 173, 1);
+}

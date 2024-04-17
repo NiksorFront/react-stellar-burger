@@ -70,7 +70,7 @@ const profileSlice = createSlice({
     extraReducers: (build) => {
         build.addCase(updateDataProfile.pending, ()  =>  console.log("Ждём данные профиля с сервера"))
         build.addCase(updateDataProfile.fulfilled, () => console.log("Данные получены")) 
-        build.addCase(updateDataProfile.rejected, () => console.log("ошибка"))
+        build.addCase(updateDataProfile.rejected, (state) => {state.user.email="Ошибка"; state.user.name="Ошибка"; console.log("ошибка")})
     }
 
 

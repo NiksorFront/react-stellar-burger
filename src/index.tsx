@@ -15,20 +15,25 @@ import ForgotPassword from "./pages/forgot-password/forgot-password";
 import ResetPassword from "./pages/reset-password/reset-password";
 import Profile from "./pages/profile/profile"
 import IngredientsId from "./pages/ingredients-id/ingredients-id";
+import Feed from "./pages/feed/feed";
+import Order from "./pages/order/order";
+import ProfileOrder from "./pages/profile-order/profile-order";
 
 
 const AddHeader = (children: ReactNode) => {
   return (<><AppHeader/>{children}</>)
 }
 
-function ModalPopup(){
-  const background = useSelector(state => state.modal.open);
+type ModalPopupType = {modal: ReactNode, page:ReactNode}
+//Принимает компонент с моадльныым окном или отдельную страницу.
+//И в зависмомти от background(true/false) рендерит modal или page соотвественно
+function ModalPopup({modal, page}:ModalPopupType){
+  const background = useSelector(state => state.modal.open);  
 
   return (<>
     <AppHeader/>
-    {background ? <App/> 
-                : <IngredientsId/>}
-    </>)
+    {background ? modal : page}
+  </>)
 }
 
                            
@@ -58,16 +63,24 @@ const router = createBrowserRouter([
     element: AddHeader(<Profile/>)
   },
   {
-    path: "/profile/orders",
-    element: <p>Будет релизовано в следующем спринте</p>
+    path: "/profile/orders",  //страница истории заказов пользователя. Доступен только авторизованным пользователям.
+    element: AddHeader(<Profile/>)
   },
   {
-    path: "/profile/orders/:id",
-    element: <p>Будет релизовано в следующем спринте</p>
+    path: "/profile/orders/:id",  //страница заказа в истории заказов. Доступен только авторизованным пользователям.
+    element: <ModalPopup modal={<Profile/>} page={<ProfileOrder/>}/>
+  },
+  {
+    path: "/feed", //страница ленты заказов. Доступен всем пользователям.
+    element: AddHeader(<Feed/>)
+  },
+  {
+    path: "/feed/:id", //страница заказа в ленте. Доступен всем пользователям.
+    element: <ModalPopup modal={<Feed/>} page={<Order/>}/>
   },
   {
     path: "/ingredients/:id", // страница ингредиента
-    element: <ModalPopup/>
+    element: <ModalPopup modal={<App/>} page={<IngredientsId/>}/>
     //element: <>{window.history.state === null ? AddHeader(<App/>) : AddHeader(<IngredientsId/>)}</>
   },
   {

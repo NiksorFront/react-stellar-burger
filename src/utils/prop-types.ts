@@ -5,6 +5,29 @@ import { ReactNode } from "react";
 import { createAsyncThunk as createAsyncThunkRedux} from "@reduxjs/toolkit";
 
 
+//Типизация для миддливара
+export type wsPayloadConnect = {
+  wsUrl: string,
+  withToken: boolean
+}
+
+export type OrderType = {
+  _id: string;
+  ingredients: string[];
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+  id?: string;
+};
+
+export type OrderListType = {
+  success: boolean;
+  orders: Array<OrderType>;
+  total: number;
+  totalToday: number;
+};
 
 //Тпизация для компонентов
 export type Child = {children: ReactNode};

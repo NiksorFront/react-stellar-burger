@@ -7,9 +7,10 @@ import { popupContent, popupOpen } from "../../services/Slice/modalSlice"
 import { useDrag, useDrop } from "react-dnd"
 import { countIngreds } from "../../services/Slice/burgerIngredientsSlice"
 import { useMemo, useRef } from "react"
-import { reqOrder } from "../../services/Slice/orderSlice" 
+import { reqOrder } from "../../services/Slice/orderSlice/orderSlice" 
 import { useNavigate } from "react-router-dom";
 import { updateDataProfile } from "../../services/Slice/profileSlice";
+import { getCookie } from "../../utils/cookie";
 
 type ingrInCnstrType = {ingred: IngredientType, index: number, len: number, e: number, deleteElement: any}
 
@@ -132,8 +133,10 @@ export default function BurgerConstructor(){
             dispatch(popupContent({
                 title:"",
                 modal: "OrderDetails",
-            }))
-            dispatch(reqOrder([ingredients.map(ing => ing._id), 'orders'])) //Запрашиваем данные с номером заказа
+            }));
+            const token: string = getCookie('accessToken')!
+            const endpoint = `orders?token=${token.split(" ")[1]}`
+            dispatch(reqOrder([ingredients.map(ing => ing._id), endpoint])) //Запрашиваем данные с номером заказа
         }else{
             navigate("/login")
         }

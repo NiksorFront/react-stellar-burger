@@ -1,7 +1,7 @@
 .brg_construct{ 
     width: 600px;
     max-height: calc(100vh - 84px);
-    margin: 0 20px;
+    margin: 20px;
     padding: 0;
 
     display: flex;
@@ -22,7 +22,7 @@
     display: flex; 
     width: inherit;
     height: fit-content;
-    max-height: calc(100vh - 320px);
+    max-height: calc(100vh - 340px);
 
     margin: 100px 0 0;
     padding: 0;
