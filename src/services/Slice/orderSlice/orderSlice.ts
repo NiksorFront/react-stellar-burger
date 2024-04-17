@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {createAsyncThunk} from "../../../utils/prop-types"
 
 import { requestPost } from "../../../utils/API";
+import { getCookie } from "../../../utils/cookie";
 
 const initialState: {number:string} = {number: ""}
 

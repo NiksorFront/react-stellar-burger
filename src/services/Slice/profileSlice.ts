@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getCookie, setCookie } from "../../utils/cookie";
 import { requestAuth, requestPost } from "../../utils/API";
 import { AppDispatch, ProfilePayloadTypes, ProfileType, createAsyncThunk } from "../../utils/prop-types";
-import { store } from "..";
 
 
 

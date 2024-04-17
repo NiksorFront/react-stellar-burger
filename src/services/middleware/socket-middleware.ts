@@ -82,23 +82,6 @@ export const socketMiddlewareCreater: (wsActions: WSActionsType) => Middleware =
                 }
                 
             }
-                
-                    /*case "order_WS_disconnect":
-                    console.log("дисконект")
-                    break;
-                case "order_WS_connecting":
-                    console.log("просиходит конект")
-                    break;
-                case "order_WS_open":
-                    console.log("соединение открыто")
-                    break;
-                case "order_WS_close":
-                    console.log("соединение закрыто")
-                    break;
-                case "order_WS_error":
-                    console.log("В соединении ошибка")
-                    break;
-            }*/
 
             next(action);
         }
