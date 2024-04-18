@@ -11,4 +11,4 @@
 - Cookie
 - Взаимодействие с сервером яндекса через WebPack и fetch запросы
 
-** https://niksorfront.github.io/react-stellar-burger/ **
+**https://niksorfront.github.io/react-stellar-burger/**
