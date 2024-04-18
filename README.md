@@ -10,3 +10,5 @@
 - Авторизация пользователей (accessToken и refreshToken)
 - Cookie
 - Взаимодействие с сервером яндекса через WebPack и fetch запросы
+
+** https://niksorfront.github.io/react-stellar-burger/ **
