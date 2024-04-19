@@ -3,7 +3,7 @@ import s from './burger-ingredients.module.css'
 import IngredientList from '../ingredient-list/ingredient-list'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch, IngredientType } from '../../utils/prop-types'
-import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice"
+import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice/BurgerIngredientsSlice"
 
 
 type navTypes = {current: string, setCurrent: React.Dispatch<React.SetStateAction<string>>}

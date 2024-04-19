@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {createAsyncThunk} from "../../../utils/prop-types"
-
 import { requestPost } from "../../../utils/API";
-import { getCookie } from "../../../utils/cookie";
 
-const initialState: {number:string} = {number: ""}
+export const initialOrder: {number:string} = {number: ""}
 
 export const reqOrder = createAsyncThunk(
     "order/requestOrder",
@@ -17,7 +15,7 @@ export const reqOrder = createAsyncThunk(
 )
 export const orderSplice = createSlice({
     name: "order",
-    initialState,
+    initialState: initialOrder,
     reducers:{
         print: (state, action) => {console.log(action.payload)},
     },
@@ -31,5 +29,4 @@ export const orderSplice = createSlice({
     }
 })
 
-const order = orderSplice.reducer;
-export default order;
+export default orderSplice.reducer;

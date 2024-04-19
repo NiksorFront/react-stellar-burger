@@ -12,7 +12,7 @@ type stateType = {
     table: OrderListType,
 }
 
-const initialState: stateType = {
+export const initialState: stateType = {
     status: '',
     connectionError: '',
     table:{

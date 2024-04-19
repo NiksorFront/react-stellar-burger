@@ -3,7 +3,7 @@ import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { requestPost } from "../../utils/API";
-import { register, updateDataProfile } from "../../services/Slice/profileSlice";
+import { register, updateDataProfile } from "../../services/Slice/profileSlice/profileSlice";
 import { useDispatch, useSelector} from "../../utils/prop-types";
 
 export default function Register(){

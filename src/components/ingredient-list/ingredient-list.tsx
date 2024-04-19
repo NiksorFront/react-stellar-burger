@@ -1,7 +1,7 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import s from "./ingredient-list.module.css"
 import { Child, useDispatch} from "../../utils/prop-types";
-import { popupContent, popupOpen } from "../../services/Slice/modalSlice";
+import { popupContent, popupOpen } from "../../services/Slice/modalSlice/modalSlice";
 import { useDrag } from "react-dnd";
 import { useNavigate} from "react-router-dom";
 import { IngredientType } from "../../utils/prop-types";

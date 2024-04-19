@@ -4,7 +4,7 @@ import { useEffect} from "react"
 import { createPortal } from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { Child, useDispatch} from "../../utils/prop-types";
-import { popupOpen } from "../../services/Slice/modalSlice";
+import { popupOpen } from "../../services/Slice/modalSlice/modalSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Modal({children, title, pathURL}: Child & {title:string, pathURL: string}){

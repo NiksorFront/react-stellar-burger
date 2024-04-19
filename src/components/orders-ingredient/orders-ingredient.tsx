@@ -2,7 +2,7 @@ import { OrderType, useDispatch, useSelector } from "../../utils/prop-types";
 import { v4 as uuidv4 } from "uuid";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import s from "./orders-ingredient.module.css"
-import { popupContent, popupOpen } from "../../services/Slice/modalSlice";
+import { popupContent, popupOpen } from "../../services/Slice/modalSlice/modalSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function OrdersIngredient({order}:{order: OrderType}){

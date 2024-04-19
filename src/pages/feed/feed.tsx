@@ -3,7 +3,7 @@ import FeedInfo from "../../components/feed-info/feed-info";
 import FeedOrder from "../../components/feed-order/feed-order";
 import { useDispatch, useSelector } from "../../utils/prop-types";
 import { UrlAllOrders } from "../../utils/API"
-import {requestСomponents as requestComponents} from "../../services/Slice/burgerIngredientsSlice"
+import {requestСomponents as requestComponents} from "../../services/Slice/burgerIngredientsSlice/BurgerIngredientsSlice"
 
 import s from "./feed.module.css"
 import { wsClose, wsConnect, wsDisconnect } from "../../services/Slice/orderSlice/orderActions";

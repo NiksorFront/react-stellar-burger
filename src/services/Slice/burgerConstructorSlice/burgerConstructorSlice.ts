@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit"
-import { IngredientType } from "../../utils/prop-types";
+import { IngredientType } from "../../../utils/prop-types";
 
-const initialState: Array<IngredientType> = [];
+export const initialState: Array<IngredientType> = [];
 
 type add = {payload: [IngredientType, number]} 
 type del = {payload: number}

@@ -1,10 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {createAsyncThunk} from "../../utils/prop-types"
-import {request} from "../../utils/API";
-import { InitState } from "../../utils/prop-types";
+import {createAsyncThunk} from "../../../utils/prop-types"
+import {request} from "../../../utils/API";
+import { InitState } from "../../../utils/prop-types";
 
 
-const initialState: InitState = {success: false, data: []}
+export const initialState: InitState = {success: false, data: []}
 
 export const requestСomponents = createAsyncThunk(
   'BurgerIngredients/requestData',

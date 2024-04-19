@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import OrderInfo from "../../components/order-info/order-info";
 import { useDispatch, useSelector } from "../../utils/prop-types";
 import s from "./order.module.css"
-import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice"
+import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice/BurgerIngredientsSlice"
 import { wsClose, wsConnect } from "../../services/Slice/orderSlice/orderActions";
 import { UrlAllOrders } from "../../utils/API";
 

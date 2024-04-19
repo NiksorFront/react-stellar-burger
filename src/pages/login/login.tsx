@@ -3,7 +3,7 @@ import s from "../authentication.module.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { requestPost } from "../../utils/API";
-import { authorization, updateDataProfile } from "../../services/Slice/profileSlice";
+import { authorization, updateDataProfile } from "../../services/Slice/profileSlice/profileSlice";
 import { AuthorizationType, useDispatch, useSelector} from "../../utils/prop-types";
 
 export default function Login(){

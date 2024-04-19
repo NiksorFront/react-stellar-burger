@@ -2,14 +2,14 @@ import s from "./burger-constructor.module.css"
 import { ConstructorElement, Button, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components"
 import { v4 as uuidv4 } from "uuid";
 import { IngredientType, useDispatch, useSelector } from "../../utils/prop-types"
-import { delIngred, addIngred, repIngred} from '../../services/Slice/burgerConstructorSlice'
-import { popupContent, popupOpen } from "../../services/Slice/modalSlice"
+import { delIngred, addIngred, repIngred} from '../../services/Slice/burgerConstructorSlice/burgerConstructorSlice'
+import { popupContent, popupOpen } from "../../services/Slice/modalSlice/modalSlice"
 import { useDrag, useDrop } from "react-dnd"
-import { countIngreds } from "../../services/Slice/burgerIngredientsSlice"
+import { countIngreds } from "../../services/Slice/burgerIngredientsSlice/BurgerIngredientsSlice"
 import { useMemo, useRef } from "react"
 import { reqOrder } from "../../services/Slice/orderSlice/orderSlice" 
 import { useNavigate } from "react-router-dom";
-import { updateDataProfile } from "../../services/Slice/profileSlice";
+import { updateDataProfile } from "../../services/Slice/profileSlice/profileSlice";
 import { getCookie } from "../../utils/cookie";
 
 type ingrInCnstrType = {ingred: IngredientType, index: number, len: number, e: number, deleteElement: any}
@@ -135,7 +135,8 @@ export default function BurgerConstructor(){
                 modal: "OrderDetails",
             }));
             const token: string = getCookie('accessToken')!
-            const endpoint = `orders?token=${token.split(" ")[1]}`
+            const endpoint = `orders?token=${token.split(" ")[1]}`;
+            console.log(ingredients.map(ing => ing._id));
             dispatch(reqOrder([ingredients.map(ing => ing._id), endpoint])) //Запрашиваем данные с номером заказа
         }else{
             navigate("/login")

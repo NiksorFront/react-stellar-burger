@@ -3,7 +3,7 @@ import { OrderType, useDispatch, useSelector } from "../../utils/prop-types";
 import { v4 as uuidv4 } from "uuid";
 import s from "./feed-order-element.module.css"
 import { useNavigate } from "react-router-dom";
-import { popupContent, popupOpen } from "../../services/Slice/modalSlice";
+import { popupContent, popupOpen } from "../../services/Slice/modalSlice/modalSlice";
 
 export default function FeedOrderElement({order}:{order: OrderType}){
     const ingredients = useSelector(state => state.burgerIngredients.data)
