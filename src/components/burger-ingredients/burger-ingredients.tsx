@@ -3,12 +3,12 @@ import s from './burger-ingredients.module.css'
 import IngredientList from '../ingredient-list/ingredient-list'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch, IngredientType } from '../../utils/prop-types'
-import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice"
+import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice/BurgerIngredientsSlice"
 
 
-type navTypes = {current: string, setCurrent: React.Dispatch<React.SetStateAction<string>>}
+type NavTypes = {current: string, setCurrent: React.Dispatch<React.SetStateAction<string>>}
 
-function NavIngred({current, setCurrent}:navTypes){
+function NavIngred({current, setCurrent}:NavTypes){
     return(
         <div style={{ display: 'flex' }} className="mt-5">
             <Tab value="one" active={current === 'one'} onClick={setCurrent}>
@@ -25,12 +25,12 @@ function NavIngred({current, setCurrent}:navTypes){
 }
 
 
-type valueType = [main_: IngredientType[], 
+type ValueType = [main_: IngredientType[], 
                   bun_:  IngredientType[], 
                   sauce_:IngredientType[]]
 
 function values(ingredients: Array<IngredientType>){
-    const [main_, bun_, sauce_]:valueType = [[],[],[]]
+    const [main_, bun_, sauce_]:ValueType = [[],[],[]]
 
     ingredients.forEach(ingred => {
         ingred.type === 'bun'   ? bun_.push(ingred)  :

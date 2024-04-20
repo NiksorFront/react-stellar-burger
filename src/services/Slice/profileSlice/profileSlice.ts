@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCookie, setCookie } from "../../utils/cookie";
-import { requestAuth, requestPost } from "../../utils/API";
-import { AppDispatch, ProfilePayloadTypes, ProfileType, createAsyncThunk } from "../../utils/prop-types";
+import { getCookie, setCookie } from "../../../utils/cookie"; 
+import { requestAuth, requestPost } from "../../../utils/API";
+import { AppDispatch, ProfilePayloadTypes, ProfileType, createAsyncThunk } from "../../../utils/prop-types";
 
 
 
-const initialState: ProfileType = {isAuth: false,
-                                   user: {email: "",
-                                          name: ""  }
-                                  }
+export const initialState: ProfileType = {isAuth: false,
+                                          user: {email: "",
+                                                 name: ""  }
+                                         }
 
 export const updateDataProfile = createAsyncThunk(
   'profile/updateDataProfile',

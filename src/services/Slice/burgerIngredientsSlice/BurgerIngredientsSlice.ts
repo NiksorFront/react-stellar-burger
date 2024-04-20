@@ -1,10 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {createAsyncThunk} from "../../utils/prop-types"
-import {request} from "../../utils/API";
-import { InitState } from "../../utils/prop-types";
+import {createAsyncThunk} from "../../../utils/prop-types"
+import {request} from "../../../utils/API";
+import { InitState } from "../../../utils/prop-types";
 
 
-const initialState: InitState = {success: false, data: []}
+export const initialState: InitState = {success: false, data: []}
 
 export const requestСomponents = createAsyncThunk(
   'BurgerIngredients/requestData',
@@ -15,14 +15,14 @@ export const requestСomponents = createAsyncThunk(
         }
 )
 
-type count = {payload: [number, number]}
+type Count = {payload: [number, number]}
 
 //список всех полученных ингредиентов
 export const BurgerIngredientsSlice = createSlice({
     name: 'BurgerIngredients',
     initialState,
     reducers: {
-      countIngreds: (state, {payload: [index, cnt]}: count) => {state.data[index].__v = cnt},
+      countIngreds: (state, {payload: [index, cnt]}: Count) => {state.data[index].__v = cnt},
     },
     extraReducers: (builder) => {
       builder.addCase(requestСomponents.pending, () => console.log("Ждём компоненты с сервера"));//загрузка

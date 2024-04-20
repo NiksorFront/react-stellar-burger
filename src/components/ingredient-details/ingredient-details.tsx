@@ -2,7 +2,7 @@ import { IngredientType, useDispatch, useSelector } from "../../utils/prop-types
 import s from "./ingredient-details.module.css"
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice"
+import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice/BurgerIngredientsSlice"
 
 
 //type propsType = { [key: string]: string }

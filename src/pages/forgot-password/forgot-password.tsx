@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { requestPost } from "../../utils/API";
 import { useDispatch, useSelector } from "../../utils/prop-types";
-import { updateDataProfile } from "../../services/Slice/profileSlice";
+import { updateDataProfile } from "../../services/Slice/profileSlice/profileSlice";
 
 
 

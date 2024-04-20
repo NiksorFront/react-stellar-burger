@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../../utils/prop-types";
 import Order from "../order/order";
-import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice"
-import { updateDataProfile } from "../../services/Slice/profileSlice";
+import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice/BurgerIngredientsSlice"
+import { updateDataProfile } from "../../services/Slice/profileSlice/profileSlice";
 import { useNavigate } from "react-router-dom";
 import OrderInfo from "../../components/order-info/order-info";
 import { wsConnect } from "../../services/Slice/orderSlice/orderActions";

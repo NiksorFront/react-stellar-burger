@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../../utils/prop-types";
 import s from "./orders.module.css"
-import { updateDataProfile } from "../../services/Slice/profileSlice";
+import { updateDataProfile } from "../../services/Slice/profileSlice/profileSlice";
 import { useNavigate } from "react-router-dom";
-import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice"
+import {requestСomponents} from "../../services/Slice/burgerIngredientsSlice/BurgerIngredientsSlice"
 import { wsClose, wsConnect } from "../../services/Slice/orderSlice/orderActions";
 import { UrlMyOrders } from "../../utils/API";
 import { v4 as uuidv4 } from "uuid";

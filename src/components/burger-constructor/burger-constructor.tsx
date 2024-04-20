@@ -2,19 +2,19 @@ import s from "./burger-constructor.module.css"
 import { ConstructorElement, Button, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components"
 import { v4 as uuidv4 } from "uuid";
 import { IngredientType, useDispatch, useSelector } from "../../utils/prop-types"
-import { delIngred, addIngred, repIngred} from '../../services/Slice/burgerConstructorSlice'
-import { popupContent, popupOpen } from "../../services/Slice/modalSlice"
+import { delIngred, addIngred, repIngred} from '../../services/Slice/burgerConstructorSlice/burgerConstructorSlice'
+import { popupContent, popupOpen } from "../../services/Slice/modalSlice/modalSlice"
 import { useDrag, useDrop } from "react-dnd"
-import { countIngreds } from "../../services/Slice/burgerIngredientsSlice"
+import { countIngreds } from "../../services/Slice/burgerIngredientsSlice/BurgerIngredientsSlice"
 import { useMemo, useRef } from "react"
 import { reqOrder } from "../../services/Slice/orderSlice/orderSlice" 
 import { useNavigate } from "react-router-dom";
-import { updateDataProfile } from "../../services/Slice/profileSlice";
+import { updateDataProfile } from "../../services/Slice/profileSlice/profileSlice";
 import { getCookie } from "../../utils/cookie";
 
-type ingrInCnstrType = {ingred: IngredientType, index: number, len: number, e: number, deleteElement: any}
+type IngrInCnstrType = {ingred: IngredientType, index: number, len: number, e: number, deleteElement: any}
 
-function IngrInConstructor({ingred, index, len, e, deleteElement}:ingrInCnstrType){ 
+function IngrInConstructor({ingred, index, len, e, deleteElement}:IngrInCnstrType){ 
     const dispatch = useDispatch()
 
     const [{isDraging},dragIng] = useDrag({type:"ingredients",
@@ -135,8 +135,9 @@ export default function BurgerConstructor(){
                 modal: "OrderDetails",
             }));
             const token: string = getCookie('accessToken')!
-            const endpoint = `orders?token=${token.split(" ")[1]}`
-            dispatch(reqOrder([ingredients.map(ing => ing._id), endpoint])) //Запрашиваем данные с номером заказа
+            //const endpoint = `orders?token=${token.split(" ")[1]}`;
+            //console.log(ingredients.map(ing => ing._id));
+            dispatch(reqOrder([ingredients.map(ing => ing._id), token])) //Запрашиваем данные с номером заказа
         }else{
             navigate("/login")
         }
@@ -147,7 +148,9 @@ export default function BurgerConstructor(){
     let totalPrice: number = useMemo(() => {return ingredients.reduce((Summa, ingrd) => Summa + ingrd.price, 0)}, [len]); //Общая цена
     return( <section className={`${s.brg_construct}
                                 ${isHover && s.brg_construct_opacity}`}//Если предмет в границах блока, то прозрачности рамки нет,
-                     ref={dropTarget}>
+                     ref={dropTarget}
+                     data-cy="constructor"
+                     >
                 <div className={`${s.constructor}`}>
                     {ingredients.map((ingred, index) => {
                         e += 1;
@@ -158,7 +161,7 @@ export default function BurgerConstructor(){
                     <p className="text text_type_digits-medium">{totalPrice}</p>
                     <CurrencyIcon type="primary" />
                     
-                    <Button htmlType="button" type="primary" disabled={!len} size="large" onClick={popup}>
+                    <Button htmlType="button" type="primary" disabled={!len} size="large" onClick={popup} data-cy="createOrder">
                         Оформить заказ
                     </Button>
                 </div>

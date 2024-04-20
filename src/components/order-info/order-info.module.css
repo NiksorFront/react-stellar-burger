@@ -30,6 +30,9 @@
     align-items: center;
     justify-content: space-between;
 }
+.ingr_title{
+    width: 260px;
+}
 
 .price{
     width: fit-content;

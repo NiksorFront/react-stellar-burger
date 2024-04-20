@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ModalType } from "../../utils/prop-types";
+import { ModalType } from "../../../utils/prop-types";
 
-const initialState: ModalType = {open: false, 
-                                 data: {title: "",
-                                        modal: "",
-                                        content: ""}};
+export const initialState: ModalType = {open: false, 
+                                        data: {title: "",
+                                                modal: "",
+                                                content: ""}};
 
 export const modalSlice = createSlice({
     name: "modal",
