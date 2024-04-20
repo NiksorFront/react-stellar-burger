@@ -28,6 +28,7 @@ function Ingr({ingr}:{ingr: IngredientType}){
         <li className={s.column} 
             onClick={() => popup(ingr)}
             ref={dragRef}
+            data-cy="ingredient" //Для тестирование через Cypress
            >
             {/*в __v я решил записывать значение count*/}
             {(ingr.__v > 0) && <Counter count={ingr.__v} size="default" extraClass="m-1" />}

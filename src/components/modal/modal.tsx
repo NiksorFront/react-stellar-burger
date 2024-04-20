@@ -31,7 +31,7 @@ export default function Modal({children, title, pathURL}: Child & {title:string,
         <div className={s.modal}>
             <div className={s.title}>
                 <h1 className="text text_type_main-large">{title}</h1>
-                <CloseIcon type="primary" onClick={() => closeModal()} />
+                <div data-cy="close"><CloseIcon type="primary" onClick={() => closeModal()}/></div>
             </div>
             {children}
         </div>

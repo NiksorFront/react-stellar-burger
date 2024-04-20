@@ -1,4 +1,4 @@
-const URL = 'https://norma.nomoreparties.space/api';
+export const URL = 'https://norma.nomoreparties.space/api';
 export const UrlMyOrders = "wss://norma.nomoreparties.space/orders";
 export const UrlAllOrders = "wss://norma.nomoreparties.space/orders/all";
 

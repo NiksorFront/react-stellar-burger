@@ -148,7 +148,9 @@ export default function BurgerConstructor(){
     let totalPrice: number = useMemo(() => {return ingredients.reduce((Summa, ingrd) => Summa + ingrd.price, 0)}, [len]); //Общая цена
     return( <section className={`${s.brg_construct}
                                 ${isHover && s.brg_construct_opacity}`}//Если предмет в границах блока, то прозрачности рамки нет,
-                     ref={dropTarget}>
+                     ref={dropTarget}
+                     data-cy="constructor"
+                     >
                 <div className={`${s.constructor}`}>
                     {ingredients.map((ingred, index) => {
                         e += 1;
@@ -159,7 +161,7 @@ export default function BurgerConstructor(){
                     <p className="text text_type_digits-medium">{totalPrice}</p>
                     <CurrencyIcon type="primary" />
                     
-                    <Button htmlType="button" type="primary" disabled={!len} size="large" onClick={popup}>
+                    <Button htmlType="button" type="primary" disabled={!len} size="large" onClick={popup} data-cy="createOrder">
                         Оформить заказ
                     </Button>
                 </div>
