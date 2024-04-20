@@ -6,11 +6,12 @@ import s from "./order-info.module.css"
 
 type IngredType = {ingr: IngredientType}
 function Ingred({ingr}: IngredType){
+    
     return <li className={s.ingr}>
         <img src={ingr.image_mobile} className={s.img} alt="ингредиент"/>
-        <p className='text text_type_main-default'>{ingr.name}</p>
+        <p className={`text text_type_main-default ${s.ingr_title}`}>{ingr.name}</p>
         <div className={s.price}>
-            <p className="text text_type_digits-default">{ingr.price}</p>
+            <p className="text text_type_digits-default">{ingr.__v} x {ingr.price * ingr.__v}</p>
             <CurrencyIcon type="primary" />
         </div>
     </li>
@@ -25,17 +26,26 @@ export default function OrderInfo(){
 
     
     const order = table.orders.find(ord => (ord._id === orderId))!       //Инфа о заказе
-    const orderIngredients: Array<IngredientType> = []                  //Массив со всеми ингредиентами заказа
+    const orderIngredients: IngredientType[] = []                  //Массив со всеми ингредиентами заказа
     let price: number = 0;     
                                              //Итоговая цена
     //console.log(order)
     order.ingredients.forEach((ingredId) =>{                            //Проходимся по массиву Id'шников с ингредиентами заказа 
         const ingredient = ingredients.find(ingredient => (ingredient?._id === ingredId))! //Находим ингредиент с этим id в списке всех возможных ингредиентов
-        orderIngredients.push(ingredient);                              //Добавляем этот ингредиент в orderIngredients
+        //const ingred = Object.assign({},ingredient)
+        if (!orderIngredients.some(ingred => (ingred._id === ingredient._id))){           //Если ingredient ни разу не встречается в orderIngredients
+            orderIngredients.push(Object.assign({},ingredient, {__v: 1}));                //Добавляем его в orderIngredients
+        }else{                                                                            //Если встречается
+            orderIngredients.forEach((ingred, index) => {                                 //Перебираем orderIngredients
+                if(ingred._id === ingredient._id){                                        //Находим этот ингредиент
+                    orderIngredients[index].__v += 1;                                     //и __v увеличиваем на один, т.к. это типа счётчик
+                }
+            })
+        }
 
         price = price + ingredient.price;                               //Суммируем для получения итоговой стоимости
     })
-
+    console.log(orderIngredients)
 
     return(<div className={s.content}>
         <h2 className={`text text_type_digits-default ${s.center}`}>#{order.number}</h2>

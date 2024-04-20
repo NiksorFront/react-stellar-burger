@@ -41,9 +41,9 @@ function Ingr({ingr}:{ingr: IngredientType}){
         </li>)
 }
 
-type propsType = Child & {ingredients: Array<IngredientType>}
+type PropsType = Child & {ingredients: Array<IngredientType>}
 
-export default function IngredientList({children, ingredients}:propsType){
+export default function IngredientList({children, ingredients}:PropsType){
     return(<div>
         <h4 className='text text_type_main-medium mt-15'>{children}</h4>
         <ul className={s.columns}>

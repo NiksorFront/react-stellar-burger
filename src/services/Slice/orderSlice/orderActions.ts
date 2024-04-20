@@ -1,7 +1,7 @@
 import { createAction } from "@reduxjs/toolkit"
-import { OrderListType, wsPayloadConnect } from "../../../utils/prop-types";
+import { OrderListType, WSPayloadConnect } from "../../../utils/prop-types";
 
-export const wsConnect = createAction<wsPayloadConnect>("order_WS_connect"); //Открытие webSocket соединения
+export const wsConnect = createAction<WSPayloadConnect>("order_WS_connect"); //Открытие webSocket соединения
 export const wsDisconnect = createAction("order_WS_disconnect");             //Соединение прервалось
 export const wsConnecting = createAction("order_WS_connecting");             //Соединение устанавливается 
 export const wsOpen = createAction("order_WS_open");                         //Соединение открылось

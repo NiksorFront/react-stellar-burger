@@ -6,13 +6,13 @@ import {OrderListType} from "../../../utils/prop-types"
 //import { liveTableUpdate } from './live-table-update';
 
 
-type stateType = {
+type StateType = {
     status: string
     connectionError: string,
     table: OrderListType,
 }
 
-export const initialState: stateType = {
+export const initialState: StateType = {
     status: '',
     connectionError: '',
     table:{

@@ -12,9 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { updateDataProfile } from "../../services/Slice/profileSlice/profileSlice";
 import { getCookie } from "../../utils/cookie";
 
-type ingrInCnstrType = {ingred: IngredientType, index: number, len: number, e: number, deleteElement: any}
+type IngrInCnstrType = {ingred: IngredientType, index: number, len: number, e: number, deleteElement: any}
 
-function IngrInConstructor({ingred, index, len, e, deleteElement}:ingrInCnstrType){ 
+function IngrInConstructor({ingred, index, len, e, deleteElement}:IngrInCnstrType){ 
     const dispatch = useDispatch()
 
     const [{isDraging},dragIng] = useDrag({type:"ingredients",
@@ -135,9 +135,9 @@ export default function BurgerConstructor(){
                 modal: "OrderDetails",
             }));
             const token: string = getCookie('accessToken')!
-            const endpoint = `orders?token=${token.split(" ")[1]}`;
-            console.log(ingredients.map(ing => ing._id));
-            dispatch(reqOrder([ingredients.map(ing => ing._id), endpoint])) //Запрашиваем данные с номером заказа
+            //const endpoint = `orders?token=${token.split(" ")[1]}`;
+            //console.log(ingredients.map(ing => ing._id));
+            dispatch(reqOrder([ingredients.map(ing => ing._id), token])) //Запрашиваем данные с номером заказа
         }else{
             navigate("/login")
         }

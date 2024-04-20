@@ -1,4 +1,5 @@
 import {URL} from "../../src/utils/API";
+const baseUrl = 'http://localhost:3000/';
 
 
 
@@ -6,7 +7,7 @@ describe('drag and drop works', () => {
   before(function () {
     cy.intercept('GET', `${URL}/ingredients`, {fixture: 'ingredients.json'})
     cy.viewport(1920, 1080);
-    cy.visit('http://localhost:3000/');
+    cy.visit(baseUrl);
   });
 
   //Проверка на перетаскивание ингредиента
@@ -31,9 +32,10 @@ describe("order and modal works", () => {
       cy.viewport(1920, 1080);
       cy.intercept("GET", `${URL}/ingredients`, { fixture: "ingredients.json" });
       cy.intercept("POST", `${URL}/auth/token`, { fixture: "login.json" });
+      cy.intercept("POST", `${URL}/orders`, { fixture: "order.json" });
       window.localStorage.setItem("accessToken", "mockAccessToken");
       window.localStorage.setItem("refreshToken", "mockRefreshToken");
-      cy.visit('http://localhost:3000/');
+      cy.visit(baseUrl);
   });
 
   //Проверка на возможность оформит заказ
@@ -44,6 +46,10 @@ describe("order and modal works", () => {
     cy.get('[data-cy=createOrder]').click(); //Тут уже оформляется заказ
 
     cy.get('[data-cy=close]').click();  //Закрываем модалку
+  })
+
+  afterEach(() => {
+    cy.clearCookies();
   })
 });
 

@@ -31,7 +31,7 @@ export async function requestAuth(endpoint: string, method: string, token: strin
 }
 
 
-type requestPostTypes = [{"ingredients"?: Array<string>,
+type RequestPostTypes = [{"ingredients"?: Array<string>,
                           "password"?: string,
                           "email"?: string,
                           token?: string,
@@ -42,7 +42,7 @@ type requestPostTypes = [{"ingredients"?: Array<string>,
                          'password-reset', 'password-reset/reset'
                          'auth/login', 'auth/register', 'auth/logout', 'auth/token'
                          */
-export async function requestPost([ingredients, endpoint]:requestPostTypes){
+export async function requestPost([ingredients, endpoint]:RequestPostTypes){
     const res = await fetch(`${URL}/${endpoint}`, {
                              method: 'POST',
                              headers: {
@@ -54,4 +54,17 @@ export async function requestPost([ingredients, endpoint]:requestPostTypes){
     return await getResponse(res)                     
 }
 
-//JSON.stringify()
+//Для создания заказа
+export async function requestCreateOrder([ingredients, token]:RequestPostTypes) {
+    console.log(`${URL}/orders`, token)
+    const res = await fetch(`${URL}/orders`, {
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json",
+                                authorization: token
+                            },
+                            body: JSON.stringify(ingredients),
+                            })
+
+    return await getResponse(res)                     
+    }

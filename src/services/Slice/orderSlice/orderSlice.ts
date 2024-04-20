@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {createAsyncThunk} from "../../../utils/prop-types"
-import { requestPost } from "../../../utils/API";
+import { requestPost, requestCreateOrder } from "../../../utils/API";
 
 export const initialOrder: {number:string} = {number: ""}
 
 export const reqOrder = createAsyncThunk(
     "order/requestOrder",
-    ([ingredients, endpoint]:[Array<string>, string]) => {
-        const result: Promise<string> = requestPost([{"ingredients": ingredients},endpoint])
+    ([ingredients, token]:[Array<string>, string]) => {
+        //requestCreateOrder
+        const result: Promise<string> = requestCreateOrder([{"ingredients": ingredients},token])
                                         .then(res => res.order.number)
 
         return result;

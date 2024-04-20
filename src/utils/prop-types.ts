@@ -6,7 +6,7 @@ import { createAsyncThunk as createAsyncThunkRedux} from "@reduxjs/toolkit";
 
 
 //Типизация для миддливара
-export type wsPayloadConnect = {
+export type WSPayloadConnect = {
   wsUrl: string,
   withToken: boolean
 }
